@@ -1,29 +1,16 @@
 import { motion } from "framer-motion";
-import { Badge } from "./ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { skillCategories } from "@/constants";
 
-const skillCategories = [
-  {
-    title: "Frontend",
-    skills: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    title: "Backend",
-    skills: ["Node.js", "Express", "MongoDB", "PostgreSQL", "RESTful APIs", "JWT"],
-  },
-  {
-    title: "Tools & Others",
-    skills: ["Git", "GitHub", "VS Code", "Figma", "Postman", "Linux", "Docker"],
-  },
-  {
-    title: "Soft Skills",
-    skills: ["Problem Solving", "Team Collaboration", "Communication", "Time Management", "Adaptability"],
-  },
-];
-
-export function Skills() {
+const Skills = () => {
   return (
-    <section id="skills" className="py-20">
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <section className="py-20 pt-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,6 +65,11 @@ export function Skills() {
           ))}
         </div>
       </div>
-    </section>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
-}
+};
+
+export default Skills;

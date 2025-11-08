@@ -1,70 +1,14 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { projects, categories } from "@/constants";
 import { useState } from "react";
 
-const projects = [
-  {
-    title: "E-Commerce Platform",
-    description: "A full-featured online shopping platform with cart, payment integration, and admin dashboard",
-    image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop",
-    tech: ["React", "Node.js", "MongoDB", "Stripe"],
-    category: "Web",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Task Management App",
-    description: "Collaborative task management tool with real-time updates and team features",
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop",
-    tech: ["React", "Firebase", "Tailwind"],
-    category: "Web",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Portfolio Website",
-    description: "Modern portfolio template with animations and dark mode support",
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
-    tech: ["React", "Framer Motion", "TypeScript"],
-    category: "UI/UX",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Weather Dashboard",
-    description: "Real-time weather application with forecasts and interactive maps",
-    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop",
-    tech: ["React", "OpenWeather API", "Chart.js"],
-    category: "App",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Blog Platform",
-    description: "Content management system with markdown support and SEO optimization",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop",
-    tech: ["Next.js", "MDX", "Tailwind"],
-    category: "Web",
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Fitness Tracker",
-    description: "Mobile-responsive fitness tracking app with workout plans and progress charts",
-    image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&h=400&fit=crop",
-    tech: ["React", "Express", "PostgreSQL"],
-    category: "App",
-    github: "#",
-    demo: "#",
-  },
-];
-
-const categories = ["All", "Web", "App", "UI/UX"];
-
-export function Projects() {
+const Projects = () => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredProjects =
@@ -73,7 +17,10 @@ export function Projects() {
       : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20">
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <section className="py-20 pt-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -155,6 +102,11 @@ export function Projects() {
           ))}
         </div>
       </div>
-    </section>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
-}
+};
+
+export default Projects;

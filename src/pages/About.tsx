@@ -1,29 +1,16 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Code2, Lightbulb } from "lucide-react";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { highlights } from "@/constants";
 import profileImg from "@/assets/profile.jpg";
 
-const highlights = [
-  {
-    icon: GraduationCap,
-    title: "Education",
-    description: "BCSIT Student at Liberty College, pursuing excellence in computer science",
-  },
-  {
-    icon: Code2,
-    title: "Development",
-    description: "Full-stack developer specializing in modern web technologies",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation",
-    description: "Passionate about creating innovative solutions and learning new technologies",
-  },
-];
-
-export function About() {
+const About = () => {
   return (
-    <section id="about" className="py-20 bg-muted/30">
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <section className="py-20 bg-muted/30 pt-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -112,6 +99,11 @@ export function About() {
           </motion.div>
         </div>
       </div>
-    </section>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
-}
+};
+
+export default About;

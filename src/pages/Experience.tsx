@@ -1,41 +1,16 @@
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { timeline } from "@/constants";
 
-const timeline = [
-  {
-    type: "education",
-    title: "Bachelor of Computer Science and Information Technology",
-    organization: "Liberty College",
-    period: "2022 - Present",
-    description: "Currently pursuing BCSIT with focus on software engineering, web development, and database systems",
-  },
-  {
-    type: "experience",
-    title: "Freelance Web Developer",
-    organization: "Self-Employed",
-    period: "2023 - Present",
-    description: "Built responsive websites and web applications for various clients using modern technologies",
-  },
-  {
-    type: "experience",
-    title: "Web Development Intern",
-    organization: "Tech Solutions Pvt. Ltd.",
-    period: "2023 - 2023",
-    description: "Assisted in developing client projects, learned industry best practices, and collaborated with senior developers",
-  },
-  {
-    type: "education",
-    title: "High School",
-    organization: "Valley View Secondary School",
-    period: "2018 - 2022",
-    description: "Completed high school with science background, developed interest in programming",
-  },
-];
-
-export function Experience() {
+const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-muted/30">
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <section className="py-20 bg-muted/30 pt-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -97,6 +72,11 @@ export function Experience() {
           </div>
         </div>
       </div>
-    </section>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
-}
+};
+
+export default Experience;

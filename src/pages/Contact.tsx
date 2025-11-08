@@ -1,34 +1,16 @@
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+import { Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { contactInfo } from "@/constants";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
-const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email",
-    value: "umesh.darlami@example.com",
-    href: "mailto:umesh.darlami@example.com",
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    value: "+977 9800000000",
-    href: "tel:+9779800000000",
-  },
-  {
-    icon: MapPin,
-    title: "Location",
-    value: "Kathmandu, Nepal",
-    href: "#",
-  },
-];
-
-export function Contact() {
+const Contact = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -46,7 +28,10 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-muted/30">
+    <div className="min-h-screen">
+      <Navbar />
+      <main>
+        <section className="py-20 bg-muted/30 pt-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -157,6 +142,11 @@ export function Contact() {
           </motion.div>
         </div>
       </div>
-    </section>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
-}
+};
+
+export default Contact;

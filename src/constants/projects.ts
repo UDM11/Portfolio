@@ -1,0 +1,58 @@
+export const projects = [
+  {
+    title: "E-Commerce Platform",
+    description: "A full-featured online shopping platform with cart, payment integration, and admin dashboard",
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop",
+    tech: ["React", "Node.js", "MongoDB", "Stripe"],
+    category: "Web",
+    github: "#",
+    demo: "#",
+  },
+  {
+    title: "Task Management App",
+    description: "Collaborative task management tool with real-time updates and team features",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop",
+    tech: ["React", "Firebase", "Tailwind"],
+    category: "Web",
+    github: "#",
+    demo: "#",
+  },
+  {
+    title: "Portfolio Website",
+    description: "Modern portfolio template with animations and dark mode support",
+    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
+    tech: ["React", "Framer Motion", "TypeScript"],
+    category: "UI/UX",
+    github: "#",
+    demo: "#",
+  },
+  {
+    title: "Weather Dashboard",
+    description: "Real-time weather application with forecasts and interactive maps",
+    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop",
+    tech: ["React", "OpenWeather API", "Chart.js"],
+    category: "App",
+    github: "#",
+    demo: "#",
+  },
+  {
+    title: "Blog Platform",
+    description: "Content management system with markdown support and SEO optimization",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop",
+    tech: ["Next.js", "MDX", "Tailwind"],
+    category: "Web",
+    github: "#",
+    demo: "#",
+  },
+  {
+    title: "Fitness Tracker",
+    description: "Mobile-responsive fitness tracking app with workout plans and progress charts",
+    image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&h=400&fit=crop",
+    tech: ["React", "Express", "PostgreSQL"],
+    category: "App",
+    github: "#",
+    demo: "#",
+  },
+];
+
+export const categories = ["All", "Web", "App", "UI/UX"];
