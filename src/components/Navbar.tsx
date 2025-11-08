@@ -159,11 +159,15 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
+      // Close mobile menu when scrolling
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   // Close mobile menu on route change
   useEffect(() => {
