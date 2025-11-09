@@ -137,12 +137,13 @@ const JourneyTimeline = () => {
               key={step.year}
               initial={{ 
                 opacity: 0, 
-                y: 50,
-                x: window.innerWidth >= 1024 ? (index % 2 === 0 ? -50 : 50) : 0
+                y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 80 : 50,
+                x: typeof window !== 'undefined' && window.innerWidth >= 1024 ? (index % 2 === 0 ? -50 : 50) : 0,
+                scale: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0.9 : 1
               }}
-              whileInView={{ opacity: 1, y: 0, x: 0 }}
+              whileInView={{ opacity: 1, y: 0, x: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
+              transition={{ delay: index * 0.2, duration: 0.6, type: "spring", stiffness: 100 }}
               className={`relative mb-8 sm:mb-12 ${
                 index % 2 === 0 ? "lg:pr-[50%] lg:pl-0" : "lg:pl-[50%] lg:pr-0"
               } pl-20 sm:pl-24`}
@@ -311,8 +312,13 @@ const About = () => {
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
               {/* Enhanced Profile Image */}
               <motion.div
-                initial={{ opacity: 0, x: -100, rotateY: -30 }}
-                animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                initial={{ 
+                  opacity: 0, 
+                  x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : -100, 
+                  y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 50 : 0,
+                  rotateY: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : -30 
+                }}
+                animate={{ opacity: 1, x: 0, y: 0, rotateY: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="relative"
               >
@@ -365,8 +371,12 @@ const About = () => {
 
               {/* Enhanced About Content */}
               <motion.div
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ 
+                  opacity: 0, 
+                  x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 100,
+                  y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 50 : 0
+                }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
                 className="space-y-8"
               >
@@ -418,10 +428,18 @@ const About = () => {
                   {highlights.map((item, index) => (
                     <motion.div
                       key={item.title}
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      initial={{ 
+                        opacity: 0, 
+                        x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 50,
+                        y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 30 : 0
+                      }}
+                      animate={{ opacity: 1, x: 0, y: 0 }}
                       transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
-                      whileHover={{ scale: 1.02, x: 10 }}
+                      whileHover={{ 
+                        scale: 1.02, 
+                        x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 10,
+                        y: typeof window !== 'undefined' && window.innerWidth < 1024 ? -5 : 0
+                      }}
                     >
                       <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-lg">
                         <CardContent className="p-4 sm:p-6 flex gap-3 sm:gap-4">
