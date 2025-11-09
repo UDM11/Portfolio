@@ -1,30 +1,12 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Heart, ArrowUp, MapPin, Phone, Globe, Code2, Sparkles } from "lucide-react";
+import { Github, Linkedin, Mail, Heart, MapPin, Phone, Globe, Code2, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { skillCategories } from "../constants/skills";
+
 
 const Footer = () => {
-  const [isVisible, setIsVisible] = useState(false);
 
-  // Show/hide scroll to top button based on scroll position
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-
-  // Scroll to top function
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const quickLinks = [
     { name: "Home", href: "/" },
@@ -42,12 +24,15 @@ const Footer = () => {
   ];
 
   const services = [
-    "Web Development",
-    "UI/UX Design",
+    "Frontend Development",
+    "Backend Development", 
+    "AI Development",
+    "Custom AI Chatbots",
     "Full-Stack Solutions",
     "API Development",
-    "Database Design",
-    "Performance Optimization",
+    "LLMs Integration",
+    "WhatsApp Chatbots",
+    "AI Automation",
   ];
 
   return (
@@ -80,26 +65,23 @@ const Footer = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-1"
+            className="sm:col-span-2 lg:col-span-1"
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-3 mb-4"
-            >
+            <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center">
                 <Code2 className="h-5 w-5 text-white" />
               </div>
               <h3 className="text-xl font-bold gradient-text">Umesh Darlami</h3>
-            </motion.div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-xs sm:max-w-none">
               Full-Stack Developer passionate about creating innovative digital solutions 
               that make a difference.
             </p>
@@ -203,7 +185,7 @@ const Footer = () => {
               </div>
             </div>
             
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.name}
@@ -216,9 +198,9 @@ const Footer = () => {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 rounded-xl bg-card/50 backdrop-blur border border-border/50 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-card/50 backdrop-blur border border-border/50 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
                 >
-                  <social.icon className="h-4 w-4" />
+                  <social.icon className="h-3 w-3 sm:h-4 sm:w-4" />
                 </motion.a>
               ))}
             </div>
@@ -231,18 +213,21 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="pt-8 border-t border-border/50"
+          className="pt-6 sm:pt-8 border-t border-border/50"
         >
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>© 2024 Umesh Darlami. Made with</span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <Heart className="h-4 w-4 text-red-500 fill-current" />
-              </motion.div>
-              <span>in Nepal</span>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
+              <span>© 2024 Umesh Darlami.</span>
+              <div className="flex items-center gap-1">
+                <span>Made with</span>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 fill-current" />
+                </motion.div>
+                <span>in Nepal</span>
+              </div>
             </div>
             
             <div className="flex items-center gap-4">
@@ -255,29 +240,7 @@ const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Scroll to Top Button */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-50"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: isVisible ? 1 : 0, 
-          scale: isVisible ? 1 : 0 
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        <Button
-          onClick={scrollToTop}
-          size="icon"
-          className="w-12 h-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 group"
-        >
-          <motion.div
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <ArrowUp className="h-5 w-5" />
-          </motion.div>
-        </Button>
-      </motion.div>
+
     </footer>
   );
 };

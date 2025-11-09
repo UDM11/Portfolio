@@ -5,8 +5,39 @@ import { Button } from "@/components/ui/button";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { skillCategories } from "@/constants";
-import { Code2, Database, Palette, Wrench, Brain, Star, Zap, Target, Award, TrendingUp, ArrowRight, Heart, Sparkles, Filter, Search } from "lucide-react";
+import {
+  Code2,
+  Database,
+  Palette,
+  Wrench,
+  Brain,
+  Star,
+  Zap,
+  Target,
+  Award,
+  TrendingUp,
+  ArrowRight,
+  Heart,
+  Sparkles,
+  Filter,
+  Search,
+  MessageSquare,
+  Users,
+  Globe,
+  Layers,
+  Server,
+  GitBranch,
+  Monitor,
+  Figma,
+  Settings,
+  Cloud,
+  Lightbulb,
+  Clock,
+  CheckCircle,
+} from "lucide-react";
+
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
@@ -55,9 +86,11 @@ const FloatingElements = () => {
 const skillProficiency = [
   { name: "Frontend Development", level: 95, color: "bg-blue-500", icon: Code2 },
   { name: "Backend Development", level: 88, color: "bg-green-500", icon: Database },
-  { name: "UI/UX Design", level: 82, color: "bg-purple-500", icon: Palette },
+  { name: "AI Development", level: 85, color: "bg-purple-500", icon: Brain },
+  { name: "Chatbots Development", level: 90, color: "bg-pink-500", icon: MessageSquare },
   { name: "DevOps & Tools", level: 78, color: "bg-orange-500", icon: Wrench },
-  { name: "Problem Solving", level: 92, color: "bg-pink-500", icon: Brain },
+  { name: "UI/UX Design", level: 82, color: "bg-indigo-500", icon: Palette },
+  { name: "Problem Solving", level: 92, color: "bg-teal-500", icon: Lightbulb },
 ];
 
 // Skill statistics
@@ -197,8 +230,10 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
     switch (title.toLowerCase()) {
       case 'frontend': return Code2;
       case 'backend': return Database;
+      case 'ai development': return Brain;
+      case 'chatbots': return MessageSquare;
       case 'tools & others': return Wrench;
-      case 'soft skills': return Brain;
+      case 'soft skills': return Users;
       default: return Code2;
     }
   };
@@ -207,8 +242,10 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
     switch (title.toLowerCase()) {
       case 'frontend': return 'from-blue-500 to-cyan-500';
       case 'backend': return 'from-green-500 to-emerald-500';
+      case 'ai development': return 'from-purple-500 to-indigo-500';
+      case 'chatbots': return 'from-pink-500 to-rose-500';
       case 'tools & others': return 'from-orange-500 to-red-500';
-      case 'soft skills': return 'from-purple-500 to-pink-500';
+      case 'soft skills': return 'from-teal-500 to-cyan-500';
       default: return 'from-primary to-accent';
     }
   };
@@ -267,23 +304,54 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
               exit={{ opacity: 0, y: -10 }}
               className="flex flex-wrap gap-2"
             >
-              {filteredSkills.map((skill: string, skillIndex: number) => (
-                <motion.div
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: skillIndex * 0.05 }}
-                  whileHover={{ scale: 1.1, rotate: 2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Badge
-                    variant="secondary"
-                    className="px-3 py-1.5 text-xs sm:text-sm cursor-pointer hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm"
+              {filteredSkills.map((skill: string, skillIndex: number) => {
+                const getSkillIcon = (skillName: string) => {
+                  const name = skillName.toLowerCase();
+                  if (name.includes('html')) return Globe;
+                  if (name.includes('css')) return Palette;
+                  if (name.includes('javascript') || name.includes('typescript')) return Code2;
+                  if (name.includes('react') || name.includes('next.js')) return Layers;
+                  if (name.includes('tailwind')) return Palette;
+                  if (name.includes('framer')) return Zap;
+                  if (name.includes('node.js') || name.includes('express')) return Server;
+                  if (name.includes('fastapi')) return Zap;
+                  if (name.includes('mongodb') || name.includes('postgresql')) return Database;
+                  if (name.includes('api') || name.includes('graphql') || name.includes('jwt')) return Server;
+                  if (name.includes('langchain') || name.includes('langgraph') || name.includes('rag') || name.includes('ai') || name.includes('llm') || name.includes('openai') || name.includes('hugging')) return Brain;
+                  if (name.includes('chatbot') || name.includes('whatsapp') || name.includes('dialogflow') || name.includes('twilio') || name.includes('chatgpt')) return MessageSquare;
+                  if (name.includes('git') || name.includes('github')) return GitBranch;
+                  if (name.includes('vs code') || name.includes('postman')) return Monitor;
+                  if (name.includes('figma')) return Figma;
+                  if (name.includes('linux') || name.includes('docker')) return Settings;
+                  if (name.includes('vercel') || name.includes('netlify') || name.includes('render')) return Cloud;
+                  if (name.includes('problem') || name.includes('critical')) return Lightbulb;
+                  if (name.includes('team') || name.includes('communication')) return Users;
+                  if (name.includes('time')) return Clock;
+                  if (name.includes('adaptability')) return TrendingUp;
+                  return CheckCircle;
+                };
+                
+                const SkillIcon = getSkillIcon(skill);
+                
+                return (
+                  <motion.div
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: skillIndex * 0.05 }}
+                    whileHover={{ scale: 1.1, rotate: 2 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {skill}
-                  </Badge>
-                </motion.div>
-              ))}
+                    <Badge
+                      variant="secondary"
+                      className="px-3 py-1.5 text-xs sm:text-sm cursor-pointer hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm flex items-center gap-1.5"
+                    >
+                      <SkillIcon className="h-3 w-3" />
+                      {skill}
+                    </Badge>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </AnimatePresence>
           
@@ -524,6 +592,7 @@ const Skills = () => {
         </motion.section>
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

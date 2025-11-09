@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { highlights } from "@/constants";
 import { ArrowRight, Calendar, MapPin, Award, Heart, Coffee, Rocket, Star } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -513,6 +514,7 @@ const About = () => {
         </motion.section>
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

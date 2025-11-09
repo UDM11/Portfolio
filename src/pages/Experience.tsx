@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { timeline } from "@/constants";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -62,8 +63,10 @@ const SkillsAchievements = () => {
   const skills = [
     { name: "Frontend Development", level: 90, color: "bg-blue-500" },
     { name: "Backend Development", level: 85, color: "bg-green-500" },
-    { name: "Database Management", level: 80, color: "bg-purple-500" },
-    { name: "UI/UX Design", level: 75, color: "bg-pink-500" },
+    { name: "AI Development", level: 85, color: "bg-purple-500" },
+    { name: "Chatbots Development", level: 90, color: "bg-pink-500" },
+    { name: "Database Management", level: 80, color: "bg-indigo-500" },
+    { name: "UI/UX Design", level: 75, color: "bg-teal-500" },
     { name: "Project Management", level: 85, color: "bg-orange-500" },
   ];
 
@@ -243,7 +246,7 @@ const Experience = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
-  
+  const [showResumeModal, setShowResumeModal] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLElement>(null);
 
@@ -264,6 +267,18 @@ const Experience = () => {
       return () => heroElement.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
+
+  // Block body scroll when modal is open
+  useEffect(() => {
+    if (showResumeModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showResumeModal]);
 
   return (
     <div className="min-h-screen">
@@ -357,11 +372,14 @@ const Experience = () => {
                       <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="gap-3" asChild>
-                    <a href="/contact">
-                      <Download className="h-5 w-5" />
-                      Download Resume
-                    </a>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="gap-3"
+                    onClick={() => setShowResumeModal(true)}
+                  >
+                    <Download className="h-5 w-5" />
+                    Download Resume
                   </Button>
                 </motion.div>
               </motion.div>
@@ -451,6 +469,42 @@ const Experience = () => {
         </motion.section>
       </main>
       <Footer />
+      <WhatsAppButton />
+      
+      {/* Resume Modal */}
+      <AnimatePresence>
+        {showResumeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+            onClick={() => setShowResumeModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-card border border-border rounded-lg p-6 max-w-md w-full shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <h3 className="text-lg font-semibold mb-2">Resume Not Available</h3>
+                <p className="text-muted-foreground mb-6">
+                  Resume is currently being updated. Please check back soon!
+                </p>
+                <Button 
+                  onClick={() => setShowResumeModal(false)}
+                  className="w-full"
+                >
+                  OK
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

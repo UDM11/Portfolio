@@ -4,19 +4,19 @@ export const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "umesh.darlami@example.com",
-    href: "mailto:umesh.darlami@example.com",
+    value: "darlamiumesh123@gmail.com",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=darlamiumesh123@gmail.com",
   },
   {
     icon: Phone,
     title: "Phone",
-    value: "+977 9800000000",
-    href: "tel:+9779800000000",
+    value: "+977-9863755744",
+    href: "tel:+9779863755744",
   },
   {
     icon: MapPin,
     title: "Location",
     value: "Kathmandu, Nepal",
-    href: "#",
+    href: "https://maps.app.goo.gl/XWunW7ZkysP7w5qh9",
   },
 ];

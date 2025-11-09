@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Moon, Sun, Code2, Sparkles } from "lucide-react";
+import { Menu, X, Moon, Sun, Code2, Sparkles, Home, User, FolderOpen, Briefcase, Award, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -45,8 +45,23 @@ function ThemeToggle() {
   );
 }
 
+// Icon mapping for navigation items
+const getNavIcon = (name: string) => {
+  const icons = {
+    Home: Home,
+    About: User,
+    Projects: FolderOpen,
+    Experience: Briefcase,
+    Skills: Award,
+    Contact: MessageCircle,
+  };
+  return icons[name as keyof typeof icons] || Home;
+};
+
 // Enhanced nav link with modern hover effects
 const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
+  const IconComponent = getNavIcon(item.name);
+  
   return (
     <Link 
       to={item.href} 
@@ -54,25 +69,35 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
       <motion.div
-        className="relative px-4 py-2 rounded-full overflow-hidden"
-        whileHover={{ scale: 1.05 }}
+        className="relative px-4 py-2 rounded-full overflow-hidden flex items-center gap-2"
+        whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
-        {/* Background hover effect */}
+        {/* Animated background */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          layoutId="navHover"
+          className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100"
+          initial={false}
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
         />
         
         {/* Active indicator */}
         {isActive && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full"
+            className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-full"
             layoutId="activeNav"
             initial={false}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
         )}
+        
+        {/* Icon */}
+        <div className="relative z-10">
+          <IconComponent className={`h-4 w-4 transition-colors duration-300 ${
+            isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'
+          }`} />
+        </div>
         
         {/* Text */}
         <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
@@ -83,12 +108,13 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
           {item.name}
         </span>
         
-        {/* Sparkle effect on hover */}
+        {/* Floating sparkle effect */}
         <motion.div
-          className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100"
           animate={{
+            y: [-2, -6, -2],
             rotate: [0, 180, 360],
-            scale: [0.8, 1, 0.8],
+            scale: [0.8, 1.2, 0.8],
           }}
           transition={{
             duration: 2,
@@ -96,7 +122,7 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
             ease: "easeInOut",
           }}
         >
-          <Sparkles className="h-2 w-2 text-primary" />
+          <Sparkles className="h-3 w-3 text-primary" />
         </motion.div>
       </motion.div>
     </Link>
@@ -107,6 +133,7 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
 const MobileNavLink = ({ item, index, onClick }: { item: any; index: number; onClick: () => void }) => {
   const location = useLocation();
   const isActive = location.pathname === item.href;
+  const IconComponent = getNavIcon(item.name);
   
   return (
     <motion.div
@@ -128,12 +155,9 @@ const MobileNavLink = ({ item, index, onClick }: { item: any; index: number; onC
         }`}
       >
         <div className="flex items-center gap-3">
-          <motion.div
-            className={`w-1 h-6 rounded-full transition-all duration-300 ${
-              isActive ? 'bg-primary' : 'bg-transparent group-hover:bg-primary/50'
-            }`}
-            whileHover={{ scale: 1.2 }}
-          />
+          <IconComponent className={`h-5 w-5 transition-colors duration-300 ${
+            isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'
+          }`} />
           <span>{item.name}</span>
           {isActive && (
             <motion.div
@@ -186,32 +210,24 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-18">
-          {/* Enhanced Logo */}
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
-          >
+          {/* Logo */}
+          <div className="relative group flex-shrink-0">
             <Link 
               to="/" 
-              className="flex items-center gap-3"
+              className="flex items-center gap-2 sm:gap-3"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              <motion.div
-                className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-              >
-                <Code2 className="h-5 w-5 text-white" />
-              </motion.div>
-              <span className="text-xl font-bold gradient-text hidden sm:block">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg">
+                <Code2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              </div>
+              <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block">
                 Umesh Darlami
               </span>
-              <span className="text-xl font-bold gradient-text sm:hidden">
+              <span className="text-lg font-bold gradient-text block sm:hidden">
                 UD
               </span>
             </Link>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-2">

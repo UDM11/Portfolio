@@ -1,11 +1,12 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin, Mail, Code2, Sparkles, Zap, Target, ChevronDown, Play } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin, Mail, Code2, Sparkles, Zap, Target, ChevronDown, Play, Globe, Palette, Layers, Server, Database, Brain, MessageSquare, GitBranch, Monitor, Figma, Settings, Cloud, Users, Clock, Lightbulb, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { useState, useEffect, useRef } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -134,10 +135,60 @@ const StatsSection = () => {
 // Featured technologies section
 const TechShowcase = () => {
   const technologies = [
-    "React", "TypeScript", "Node.js", "Python", "MongoDB", "PostgreSQL",
-    "Docker", "AWS", "Git", "Tailwind CSS", "Next.js", "Express"
+    // Frontend
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    
+    // Backend
+    "Node.js",
+    "Express",
+    "FastAPI",
+    "MongoDB",
+    "PostgreSQL",
+    "RESTful APIs",
+    "GraphQL",
+    "JWT",
+    
+    // AI Development
+    "LangChain",
+    "LangGraph",
+    "RAG (Retrieval-Augmented Generation)",
+    "AI Agents",
+    "OpenAI API",
+    "Hugging Face",
+    "LLMs Integration",
+    "AI Automation",
+    "Full-Stack AI Solutions",
+    "Vector Databases",
+    
+    // Chatbots
+    "Custom AI Chatbots",
+    "WhatsApp Chatbots",
+    "Dialogflow",
+    "Twilio API",
+    "ChatGPT API",
+    "Multichannel Automation",
+    
+    // Tools & Others
+    "Git",
+    "GitHub",
+    "VS Code",
+    "Figma",
+    "Postman",
+    "Linux",
+    "Docker",
+    "Vercel",
+    "Netlify",
+    "Render",
+    "AWS"
   ];
-
+  
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -161,24 +212,49 @@ const TechShowcase = () => {
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 px-4 sm:px-0">
-          {technologies.map((tech, index) => (
-            <motion.div
-              key={tech}
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Badge
-                variant="secondary"
-                className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer"
+          {technologies.map((tech, index) => {
+            const getTechIcon = (techName: string) => {
+              const name = techName.toLowerCase();
+              if (name.includes('html')) return Globe;
+              if (name.includes('css')) return Palette;
+              if (name.includes('javascript') || name.includes('typescript')) return Code2;
+              if (name.includes('react') || name.includes('next.js')) return Layers;
+              if (name.includes('tailwind')) return Palette;
+              if (name.includes('framer')) return Zap;
+              if (name.includes('node.js') || name.includes('express')) return Server;
+              if (name.includes('fastapi')) return Zap;
+              if (name.includes('mongodb') || name.includes('postgresql')) return Database;
+              if (name.includes('api') || name.includes('graphql') || name.includes('jwt')) return Server;
+              if (name.includes('langchain') || name.includes('langgraph') || name.includes('rag') || name.includes('ai') || name.includes('llm') || name.includes('openai') || name.includes('hugging')) return Brain;
+              if (name.includes('chatbot') || name.includes('whatsapp') || name.includes('dialogflow') || name.includes('twilio') || name.includes('chatgpt')) return MessageSquare;
+              if (name.includes('git') || name.includes('github')) return GitBranch;
+              if (name.includes('vs code') || name.includes('postman')) return Monitor;
+              if (name.includes('figma')) return Figma;
+              if (name.includes('linux') || name.includes('docker')) return Settings;
+              if (name.includes('vercel') || name.includes('netlify') || name.includes('render') || name.includes('aws')) return Cloud;
+              return CheckCircle;
+            };
+            
+            const TechIcon = getTechIcon(tech);
+            
+            return (
+              <motion.div
+                key={tech}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
               >
-                {tech}
-              </Badge>
-            </motion.div>
-          ))}
+                <Badge
+                  variant="secondary"
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer flex items-center gap-1.5"
+                >
+                  <TechIcon className="h-3 w-3" />
+                  {tech}
+                </Badge>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.section>
@@ -190,7 +266,7 @@ const Home = () => {
   const y1 = useTransform(scrollY, [0, 300], [0, 100]);
   const y2 = useTransform(scrollY, [0, 300], [0, -100]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  
+  const [showResumeModal, setShowResumeModal] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLElement>(null);
 
@@ -211,6 +287,18 @@ const Home = () => {
       return () => heroElement.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
+
+  // Block body scroll when modal is open
+  useEffect(() => {
+    if (showResumeModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showResumeModal]);
 
   return (
     <div className="min-h-screen">
@@ -337,11 +425,14 @@ const Home = () => {
                     </Link>
                   </Button>
                   
-                  <Button size="lg" variant="outline" className="gap-3 group" asChild>
-                    <Link to="/contact">
-                      <Download className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                      Download Resume
-                    </Link>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="gap-3 group"
+                    onClick={() => setShowResumeModal(true)}
+                  >
+                    <Download className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                    Download Resume
                   </Button>
                 </motion.div>
 
@@ -453,6 +544,42 @@ const Home = () => {
         </motion.section>
       </main>
       <Footer />
+      <WhatsAppButton />
+      
+      {/* Resume Modal */}
+      <AnimatePresence>
+        {showResumeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+            onClick={() => setShowResumeModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-card border border-border rounded-lg p-6 max-w-md w-full shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center">
+                <h3 className="text-lg font-semibold mb-2">Resume Not Available</h3>
+                <p className="text-muted-foreground mb-6">
+                  Resume is currently being updated. Please check back soon!
+                </p>
+                <Button 
+                  onClick={() => setShowResumeModal(false)}
+                  className="w-full"
+                >
+                  OK
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

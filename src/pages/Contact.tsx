@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { contactInfo } from "@/constants";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -233,10 +234,10 @@ const ContactForm = () => {
                   className="w-full px-3 py-2 bg-background/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
                   <option value="">Select budget</option>
-                  <option value="< $1,000">$1,000</option>
-                  <option value="$1,000 - $5,000">$1,000 - $5,000</option>
-                  <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                  <option value="$10,000+">$10,000+</option>
+                  <option value="< NPR 50,000"> NPR 30,000</option>
+                  <option value="NPR 50,000 - 2,00,000">NPR 30,000 - 50,000</option>
+                  <option value="NPR 2,00,000 - 5,00,000">NPR 50,000 - 1,00,000</option>
+                  <option value="NPR 5,00,000+">NPR 2,00,000+</option>
                 </select>
               </motion.div>
               <motion.div
@@ -492,7 +493,7 @@ const Contact = () => {
                     </a>
                   </Button>
                   <Button size="lg" variant="outline" className="gap-3" asChild>
-                    <a href="mailto:umesh.darlami@example.com">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=darlamiumesh123@gmail.com">
                       <Zap className="h-5 w-5" />
                       Quick Email
                     </a>
@@ -623,6 +624,7 @@ const Contact = () => {
         </motion.section>
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
