@@ -34,7 +34,7 @@ export const projects = [
     category: "AI",
     github: "",
     demo: "",
-    features: ["Itinerary Planning", "Flight & Hotel Booking", "Real-Time Updates", "Interactive Chatbot", "Location-Based Suggestions", "Notifications & Reminders", "User Profiles", "Analytics Dashboard"],
+    features: ["Chatbot Assistance", "Vehicle Listings", "Maintenance", "Services", "Real-Time Availability", "User-Friendly Interface", "Interactive Experience", "AI-Powered Features"],
     status: "In Progress",
   },
   {
