@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Heart, MapPin, Phone, Globe, Code2, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
-import { skillCategories } from "../constants/skills";
+
 
 
 const Footer = () => {

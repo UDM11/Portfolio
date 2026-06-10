@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { highlights } from "@/constants";
+import { useHighlights } from "@/hooks/usePortfolioData";
+import * as LucideIcons from "lucide-react";
 import { ArrowRight, Calendar, MapPin, Award, Heart, Coffee, Rocket, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import profileImg from "@/assets/profile.jpg";
+const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
+
 
 // Floating elements component
 const FloatingElements = () => {
@@ -240,7 +242,22 @@ const FunFacts = () => {
   );
 };
 
+const renderIcon = (item: any) => {
+  if (typeof item.icon === 'string') {
+    const IconComponent = (LucideIcons as any)[item.icon] || (LucideIcons as any)[item.icon_name];
+    return IconComponent ? <IconComponent className="h-6 w-6 sm:h-7 sm:w-7 text-white" /> : <LucideIcons.HelpCircle className="h-6 w-6 sm:h-7 sm:w-7 text-white" />;
+  } else if (item.icon) {
+    const IconComponent = item.icon;
+    return <IconComponent className="h-6 w-6 sm:h-7 sm:w-7 text-white" />;
+  } else if (item.icon_name) {
+    const IconComponent = (LucideIcons as any)[item.icon_name];
+    return IconComponent ? <IconComponent className="h-6 w-6 sm:h-7 sm:w-7 text-white" /> : <LucideIcons.HelpCircle className="h-6 w-6 sm:h-7 sm:w-7 text-white" />;
+  }
+  return <LucideIcons.HelpCircle className="h-6 w-6 sm:h-7 sm:w-7 text-white" />;
+};
+
 const About = () => {
+  const { data: highlights = [] } = useHighlights();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
@@ -449,7 +466,7 @@ const About = () => {
                             transition={{ duration: 0.6 }}
                           >
                             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg">
-                              <item.icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+                              {renderIcon(item)}
                             </div>
                           </motion.div>
                           <div>

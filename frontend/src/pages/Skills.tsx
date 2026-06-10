@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { skillCategories } from "@/constants";
+import { useSkills } from "@/hooks/usePortfolioData";
 import {
   Code2,
   Database,
@@ -222,12 +222,14 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
   const [isHovered, setIsHovered] = useState(false);
   const [filter, setFilter] = useState("");
 
+  const categoryTitle = category.category || category.title || "";
+
   const filteredSkills = category.skills.filter((skill: string) =>
     skill.toLowerCase().includes(filter.toLowerCase())
   );
 
   const getCategoryIcon = (title: string) => {
-    switch (title.toLowerCase()) {
+    switch ((title || "").toLowerCase()) {
       case 'frontend': return Code2;
       case 'backend': return Database;
       case 'ai development': return Brain;
@@ -239,7 +241,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
   };
 
   const getCategoryColor = (title: string) => {
-    switch (title.toLowerCase()) {
+    switch ((title || "").toLowerCase()) {
       case 'frontend': return 'from-blue-500 to-cyan-500';
       case 'backend': return 'from-green-500 to-emerald-500';
       case 'ai development': return 'from-purple-500 to-indigo-500';
@@ -250,8 +252,8 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
     }
   };
 
-  const Icon = getCategoryIcon(category.title);
-  const colorClass = getCategoryColor(category.title);
+  const Icon = getCategoryIcon(categoryTitle);
+  const colorClass = getCategoryColor(categoryTitle);
 
   return (
     <motion.div
@@ -278,7 +280,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
               className="text-lg sm:text-xl font-semibold"
               animate={{ color: isHovered ? "hsl(var(--primary))" : "hsl(var(--foreground))" }}
             >
-              {category.title}
+              {categoryTitle}
             </motion.span>
           </CardTitle>
           
@@ -370,7 +372,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>{filteredSkills.length} skills</span>
               <Badge variant="outline" className="text-xs">
-                {category.title}
+                {categoryTitle}
               </Badge>
             </div>
           </div>
@@ -381,6 +383,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
 };
 
 const Skills = () => {
+  const { data: skillCategories = [] } = useSkills();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
@@ -541,7 +544,7 @@ const Skills = () => {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
               {skillCategories.map((category, index) => (
-                <SkillCategoryCard key={category.title} category={category} index={index} />
+                <SkillCategoryCard key={category.id || category.category || category.title || index} category={category} index={index} />
               ))}
             </div>
           </div>

@@ -3,7 +3,14 @@ import { Menu, X, Moon, Sun, Code2, Sparkles, Home, User, FolderOpen, Briefcase,
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
-import { navItems } from "@/constants";
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  { name: "Experience", href: "/experience" },
+  { name: "Skills", href: "/skills" },
+  { name: "Contact", href: "/contact" }
+];
 
 function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");

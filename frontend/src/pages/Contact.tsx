@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { contactInfo } from "@/constants";
+import { useContactInfo, useSendMessage } from "@/hooks/usePortfolioData";
+import * as LucideIcons from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -123,6 +124,7 @@ const ResponseStats = () => {
 // Enhanced contact form
 const ContactForm = () => {
   const { toast } = useToast();
+  const sendMessage = useSendMessage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -137,16 +139,29 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast({
-      title: "Message Sent Successfully! 🎉",
-      description: "Thank you for reaching out. I'll get back to you within 24 hours!",
-    });
-    
-    setFormData({ name: "", email: "", subject: "", message: "", budget: "", timeline: "" });
-    setIsSubmitting(false);
+    try {
+      await sendMessage.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      });
+      
+      toast({
+        title: "Message Sent Successfully! 🎉",
+        description: "Thank you for reaching out. I'll get back to you within 24 hours!",
+      });
+      
+      setFormData({ name: "", email: "", subject: "", message: "", budget: "", timeline: "" });
+    } catch (err) {
+      toast({
+        title: "Failed to Send Message ❌",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -328,6 +343,20 @@ const ContactForm = () => {
   );
 };
 
+const renderContactIcon = (item: any) => {
+  if (typeof item.icon === 'string') {
+    const IconComponent = (LucideIcons as any)[item.icon] || (LucideIcons as any)[item.icon_name];
+    return IconComponent ? <IconComponent className="h-7 w-7 text-white" /> : <LucideIcons.HelpCircle className="h-7 w-7 text-white" />;
+  } else if (item.icon) {
+    const IconComponent = item.icon;
+    return <IconComponent className="h-7 w-7 text-white" />;
+  } else if (item.icon_name) {
+    const IconComponent = (LucideIcons as any)[item.icon_name];
+    return IconComponent ? <IconComponent className="h-7 w-7 text-white" /> : <LucideIcons.HelpCircle className="h-7 w-7 text-white" />;
+  }
+  return <LucideIcons.HelpCircle className="h-7 w-7 text-white" />;
+};
+
 // Enhanced contact info card
 const ContactInfoCard = ({ item, index }: { item: any; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -351,7 +380,7 @@ const ContactInfoCard = ({ item, index }: { item: any; index: number }) => {
             transition={{ duration: 0.6 }}
             className="w-14 h-14 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-lg"
           >
-            <item.icon className="h-7 w-7 text-white" />
+            {renderContactIcon(item)}
           </motion.div>
           <div className="flex-1">
             <p className="text-sm text-muted-foreground mb-1">{item.title}</p>
@@ -375,6 +404,7 @@ const ContactInfoCard = ({ item, index }: { item: any; index: number }) => {
 };
 
 const Contact = () => {
+  const { data: contactInfo = [] } = useContactInfo();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);

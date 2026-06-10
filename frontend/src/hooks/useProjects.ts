@@ -1,6 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import { projects as staticProjects } from '@/constants/projects';
 
 export interface DBProject {
   id: string;
@@ -16,22 +14,17 @@ export interface DBProject {
   created_at?: string;
 }
 
+const API_BASE = import.meta.env.DEV ? "http://localhost:5000/api" : "/api";
+
+
 export function useProjects() {
   return useQuery<DBProject[]>({
     queryKey: ['projects'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
+      const res = await fetch(`${API_BASE}/projects`);
+      if (!res.ok) throw new Error("Failed to fetch projects");
+      const data = await res.json();
       return data || [];
     },
-    // Fallback to static projects if Supabase fetch fails or credentials aren't set
-    initialData: staticProjects as any,
   });
 }

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { categories } from "@/constants/projects";
+const categories = ["All", "Web", "App", "UI/UX", "AI"];
 import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";

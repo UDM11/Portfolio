@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { timeline } from "@/constants";
+import { useExperience } from "@/hooks/usePortfolioData";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
@@ -243,6 +243,7 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => {
 };
 
 const Experience = () => {
+  const { data: timeline = [] } = useExperience();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);

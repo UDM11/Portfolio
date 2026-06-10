@@ -9,7 +9,7 @@ import Projects from "./pages/Projects";
 import Experience from "./pages/Experience";
 import Skills from "./pages/Skills";
 import Contact from "./pages/Contact";
-import Admin from "./pages/Admin";
+import Admin from "./pages/admin/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
