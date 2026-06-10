@@ -2,6 +2,7 @@ import bcsthub from '@/assets/bcsithub.jpg';
 import travelAssistant from '@/assets/travel_assistant.jpg';
 import fastAndFuries from '@/assets/fast_and_furies.jpg';
 import ltgAdminPanel from '@/assets/ltg_admin.jpg';
+import internmanagementsystem from '@/assets/intern_management_system.jpg';
 
 export const projects = [
   {
@@ -46,6 +47,17 @@ export const projects = [
     github: "https://github.com/UDM11/LTG_admin_Panel",
     demo: "https://ltg-admin-b325a.web.app/",
     features: ["Admin dashboard", "Tasks management", "Interns management", "Certificate management", "Secure login"],
+    status: "Completed",
+  },
+  {
+    title: "Intern Management System",
+    description: "A web app to manage interns and their tasks, track progress, and streamline internship workflows with task assignments, status updates, and performance monitoring.Use the following credentials for demo access: Username: admin | Password: admin123.",
+    image: internmanagementsystem,
+    tech: ["React", "Node.js", "MongoDB", "Tailwind CSS", "Express", "Firebase", "railway", "python", "FastAPI", "uvicorn"],
+    category: "Web",
+    github: "https://github.com/UDM11/Intern_Management_System",
+    demo: "https://intern-management-system-330cb.web.app/dashboard",
+    features: ["Admin dashboard", "Tasks management", "Interns management", "Secure login"],
     status: "Completed",
   },
 ];

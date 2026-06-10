@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { projects, categories } from "@/constants/projects";
+import { categories } from "@/constants/projects";
+import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
@@ -234,6 +235,7 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
 };
 
 const Projects = () => {
+  const { data: projects = [] } = useProjects();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 100]);
   const y2 = useTransform(scrollY, [0, 300], [0, -100]);
