@@ -10,6 +10,7 @@ import * as LucideIcons from "lucide-react";
 import { ArrowRight, Calendar, MapPin, Award, Heart, Coffee, Rocket, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { GlowCard } from "@/components/ui/GlowCard";
 const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
 
 
@@ -159,7 +160,10 @@ const JourneyTimeline = () => {
                 <step.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
               </motion.div>
 
-              <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-lg">
+              <GlowCard 
+                glowColor="rgba(59, 130, 246, 0.15)"
+                className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-lg"
+              >
                 <CardContent className="p-4 sm:p-6">
                   <Badge className="mb-2 sm:mb-3 bg-primary/10 text-primary border-primary/20 text-xs sm:text-sm">
                     {step.year}
@@ -167,7 +171,7 @@ const JourneyTimeline = () => {
                   <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{step.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground">{step.description}</p>
                 </CardContent>
-              </Card>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -219,7 +223,10 @@ const FunFacts = () => {
               whileHover={{ scale: 1.05, y: -5 }}
               className="text-center"
             >
-              <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300">
+              <GlowCard 
+                glowColor="rgba(244, 63, 94, 0.15)"
+                className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 h-full"
+              >
                 <CardContent className="p-4 sm:p-6">
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.2 }}
@@ -233,7 +240,7 @@ const FunFacts = () => {
                   </motion.h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{fact.label}</p>
                 </CardContent>
-              </Card>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -458,7 +465,10 @@ const About = () => {
                         y: typeof window !== 'undefined' && window.innerWidth < 1024 ? -5 : 0
                       }}
                     >
-                      <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-lg">
+                      <GlowCard 
+                        glowColor="rgba(168, 85, 247, 0.15)"
+                        className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-lg w-full"
+                      >
                         <CardContent className="p-4 sm:p-6 flex gap-3 sm:gap-4">
                           <motion.div
                             className="flex-shrink-0"
@@ -476,7 +486,7 @@ const About = () => {
                             </p>
                           </div>
                         </CardContent>
-                      </Card>
+                      </GlowCard>
                     </motion.div>
                   ))}
                 </div>

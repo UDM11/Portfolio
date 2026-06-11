@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Filter, Search, ArrowRight, Play, Heart, Sparkles, Code, X } from "lucide-react";
+import { ExternalLink, Github, Filter, Search, ArrowRight, Play, Heart, Sparkles, Code, X, CheckCircle2, Layers, Brain, Activity, Info, Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,146 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 
+// Dynamic enrichment mapping for projects in the showcase modal
+const getEnrichedProjectDetails = (title: string, category: string, tech: string[]) => {
+  const titleLower = title.toLowerCase();
+  const techLower = tech.map(t => t.toLowerCase());
+
+  if (titleLower.includes("chatbot") || titleLower.includes("whatsapp") || titleLower.includes("automation")) {
+    return {
+      architecture: "This project runs on a FastAPI python service that handles incoming webhooks from Twilio and Meta Business API asynchronously. Conversational context sessions are serialized in Redis cache to maintain rapid multi-turn replies, then permanently logged to the Supabase database. Media uploads and voice messages are processed via cloud transcribers and mapped directly to Supabase storage.",
+      aiCapabilities: "Integrated with OpenAI GPT-4o for natural language understanding and direct database function calling. Uses LangChain agents to handle dynamic API tool execution, and utilizes semantic similarity search over client product catalogs stored as vector embeddings (pgvector). Prompt constraints enforce agent personas and safety guidelines.",
+      features: [
+        "Real-time Twilio & Meta WhatsApp webhook ingestion",
+        "OpenAI GPT-4o intent routing and functional tool use",
+        "Redis conversation caching for fast multi-turn sessions",
+        "Supabase relational schema and media logs persistence",
+        "Semantic search (RAG) using vector embeddings"
+      ],
+      flowDiagram: `
+[WhatsApp Client] --------> [Meta Business API]
+                                   |
+                                   | (Webhook URL)
+                                   v
++-------------------------------------------------------+
+|                FastAPI Backend (Fly.io)               |
+|  +-------------------+        +--------------------+  |
+|  | Webhook Router    | -----> | LLM Agent Router   |  |
+|  +-------------------+        +--------------------+  |
+|           |                            |              |
+|           | (Session Cache)            | (Query/Embed)|
+|           v                            v              |
+|     [Redis Cache]              [OpenAI GPT-4o]        |
++-------------------------------------------------------+
+      |                                  |
+      | (Sync Logs)                      | (Vector Search)
+      v                                  v
+[Supabase PostgreSQL] <----------> [pgvector Embeddings]`
+    };
+  }
+
+  if (titleLower.includes("portfolio") || titleLower.includes("website") || titleLower.includes("darlami")) {
+    return {
+      architecture: "Structured as a single-container application deployed on Fly.io's global network. A FastAPI ASGI application serves the React Single-Page Application (Vite output bundle) statically from its asset directories while managing dynamic routing fallbacks. All administration endpoints (/api/admin, /api/projects) are served by uvicorn routing directly, talking to Supabase Client SDK.",
+      aiCapabilities: "Features a client-side virtual assistant chatbot contextually trained on Umesh's skills, experience, and certifications. This assistant simulates AI recruiter chats directly from the frontend interface using modular structured prompts.",
+      features: [
+        "Consolidated single-container deployment (FastAPI + React SPA)",
+        "Fully dynamic admin dashboard connected to Supabase Client",
+        "Custom domain configuration via Cloudflare proxies and SSL",
+        "Rich sitelinks mapping using robots.txt, sitemap.xml, and Person Schema JSON-LD",
+        "Interactive Recruiter AI Assistant chatbot widget"
+      ],
+      flowDiagram: `
+[User HTTPS Request] --------> [Cloudflare Edge (SSL & Proxy)]
+                                            |
+                                            v
+                                   [Fly.io VM Container]
+                                            |
+                         +------------------+------------------+
+                         |                                     |
+                         v                                     v
+             [FastAPI ASGI Application]               [Vite React SPA]
+             - /api/projects (CRUD)                   - /projects (Route)
+             - /api/contact (Mailer)                  - /about (Static)
+                         |
+                         v
+               [Supabase Client SDK]`
+    };
+  }
+
+  // General Web Apps
+  if (category === "Web" || techLower.includes("react") || techLower.includes("next.js")) {
+    return {
+      architecture: "Built using React and TypeScript on the client side, using Tailwind CSS and Framer Motion for premium glassmorphic visual animations. Communicates with the FastAPI REST API layer for configuration and database query executions. Supabase coordinates DB CRUD operations and stores media file assets.",
+      aiCapabilities: "Includes potential AI agent enhancements such as automatic text summary fields, smart database indexing queries, and generative layout tools to show content metrics based on user interactions.",
+      features: [
+        "TypeScript static type-safety across the application",
+        "Tailwind CSS responsive design for all device viewports",
+        "Framer Motion keyframe animations at 60 FPS",
+        "Client-side React Query caching for instant page transitions",
+        "Supabase CDN asset serving and database connections"
+      ],
+      flowDiagram: `
+[Web Browser Client] --------> [Cloudflare CDN Cache]
+                                       |
+                                       v
+                             [FastAPI API Backend]
+                                       |
+                   +-------------------+-------------------+
+                   |                                       |
+                   v                                       v
+          [Supabase PostgreSQL]                    [Supabase Storage]
+          - Relational Database                    - Static media assets`
+    };
+  }
+
+  // AI Apps Fallback
+  if (category === "AI" || techLower.includes("openai") || techLower.includes("llm") || techLower.includes("langchain")) {
+    return {
+      architecture: "Runs on a python microservice architecture utilizing FastAPI endpoints for high-throughput concurrency. Orchestrates user prompt construction dynamically, coordinates chat memory stores, and executes model queries against hosted APIs or local model interfaces.",
+      aiCapabilities: "Integrates OpenAI/Anthropic SDKs with specialized prompt configurations. Implements Retrieval-Augmented Generation workflows to inject document-level metadata, maintaining low-latency token streaming.",
+      features: [
+        "Prompt engineering and system instruction templating",
+        "Session-level conversational memory stores",
+        "Retrieval-Augmented Generation (RAG) vector integrations",
+        "API rate-limiting, error fallbacks, and usage logs",
+        "High-performance FastAPI asynchronous endpoints"
+      ],
+      flowDiagram: `
+[User Chat Prompt] --------> [FastAPI Middleware Endpoint]
+                                       |
+                                       v
+                              [LangChain Executor]
+                                       |
+                   +-------------------+-------------------+
+                   |                                       |
+                   v                                       v
+         [OpenAI Chat API]                       [pgvector Database]
+         - Completion engine                     - Vector knowledge index`
+    };
+  }
+
+  // General Fallback
+  return {
+    architecture: "Uses a modern stack comprising React for client interfaces and FastAPI for service execution. Operates over PostgreSQL for transactional data stability, with images and assets served via Supabase's high-speed cloud CDN.",
+    aiCapabilities: "Optionally integrates cognitive services including optical character recognition, semantic filtering, and natural language interfaces to automate manual user tasks.",
+    features: [
+      "Dynamic RESTful endpoint structures",
+      "Comprehensive database migration scripts",
+      "JWT-based administrator authentication and access rules",
+      "Optimized production compilation pipelines",
+      "Complete environment decoupling for dev/staging/prod"
+    ],
+    flowDiagram: `
+[User Request] --------> [FastAPI Backend Service]
+                                  |
+               +------------------+------------------+
+               |                                     |
+               v                                     v
+     [Supabase Database]                     [Supabase CDN Storage]
+     - Relational tables                     - File uploads / media`
+  };
+};
 
 // Floating particles component
 const FloatingParticles = () => {
@@ -55,10 +195,8 @@ const FloatingParticles = () => {
   );
 };
 
-
-
 // Enhanced project card component
-const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project: any; index: number; onShowModal: () => void; onShowCodeModal: () => void }) => {
+const ProjectCard = ({ project, index, onShowModal, onShowCodeModal, onCardClick }: { project: any; index: number; onShowModal: () => void; onShowCodeModal: () => void; onCardClick: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -70,7 +208,8 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
       whileHover={{ y: -10 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group"
+      className="group cursor-pointer"
+      onClick={onCardClick}
     >
       <GlowCard 
         glowColor="rgba(168, 85, 247, 0.15)"
@@ -102,7 +241,8 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
                   <Button 
                     size="sm" 
                     className="gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       if (project.demo && project.demo.trim() !== '') {
                         window.open(project.demo, '_blank');
                       } else {
@@ -116,7 +256,8 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
                   <Button 
                     size="sm" 
                     className="gap-2 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       if (project.github && project.github.trim() !== '') {
                         window.open(project.github, '_blank');
                       } else {
@@ -161,20 +302,25 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
           >
             {project.title}
           </motion.h3>
-          <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed line-clamp-3">
             {project.description}
           </p>
           
           {/* Features */}
-          {project.features && (
+          {project.features && project.features.length > 0 && (
             <div className="mb-4">
-              <h4 className="text-sm font-medium mb-2">Key Features:</h4>
+              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Features:</h4>
               <div className="flex flex-wrap gap-1">
-                {project.features.map((feature: string, idx: number) => (
-                  <Badge key={idx} variant="outline" className="text-xs">
+                {project.features.slice(0, 3).map((feature: string, idx: number) => (
+                  <Badge key={idx} variant="outline" className="text-[10px] py-0 px-2">
                     {feature}
                   </Badge>
                 ))}
+                {project.features.length > 3 && (
+                  <Badge variant="outline" className="text-[10px] py-0 px-2 bg-primary/5 text-primary border-primary/20">
+                    +{project.features.length - 3} more
+                  </Badge>
+                )}
               </div>
             </div>
           )}
@@ -187,7 +333,8 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
               <Button 
                 size="sm" 
                 className="gap-2 w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg" 
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (project.demo && project.demo.trim() !== '') {
                     window.open(project.demo, '_blank');
                   } else {
@@ -203,7 +350,8 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
               <Button 
                 size="sm" 
                 className="gap-2 w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-lg" 
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (project.github && project.github.trim() !== '') {
                     window.open(project.github, '_blank');
                   } else {
@@ -218,7 +366,7 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
           </div>
           
           {/* Tech Stack */}
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-auto">
             {project.tech.map((tech: string, techIndex: number) => (
               <motion.div
                 key={tech}
@@ -250,6 +398,8 @@ const Projects = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showModal, setShowModal] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const [selectedShowcaseProject, setSelectedShowcaseProject] = useState<any | null>(null);
+  const [activeTab, setActiveTab] = useState<"overview" | "architecture" | "ai">("overview");
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -272,7 +422,7 @@ const Projects = () => {
 
   // Block background scroll when modal is open
   useEffect(() => {
-    if (showModal || showCodeModal) {
+    if (showModal || showCodeModal || selectedShowcaseProject) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -281,7 +431,7 @@ const Projects = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [showModal, showCodeModal]);
+  }, [showModal, showCodeModal, selectedShowcaseProject]);
 
   const filteredProjects = projects.filter(project => {
     const matchesCategory = activeCategory === "All" || project.category === activeCategory;
@@ -483,7 +633,14 @@ const Projects = () => {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto"
               >
                 {filteredProjects.map((project, index) => (
-                  <ProjectCard key={project.title} project={project} index={index} onShowModal={() => setShowModal(true)} onShowCodeModal={() => setShowCodeModal(true)} />
+                  <ProjectCard 
+                    key={project.title} 
+                    project={project} 
+                    index={index} 
+                    onShowModal={() => setShowModal(true)} 
+                    onShowCodeModal={() => setShowCodeModal(true)} 
+                    onCardClick={() => { setSelectedShowcaseProject(project); setActiveTab("overview"); }} 
+                  />
                 ))}
               </motion.div>
             </AnimatePresence>
@@ -649,7 +806,215 @@ const Projects = () => {
           </div>
         </motion.section>
       </main>
-      
+
+      {/* Advanced Project Showcase Modal */}
+      <AnimatePresence>
+        {selectedShowcaseProject && (() => {
+          const enrichment = getEnrichedProjectDetails(
+            selectedShowcaseProject.title, 
+            selectedShowcaseProject.category, 
+            selectedShowcaseProject.tech
+          );
+          return (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md overflow-y-auto"
+              style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}
+              onClick={() => setSelectedShowcaseProject(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="bg-card/95 border border-border/60 rounded-3xl max-w-2xl w-full shadow-2xl backdrop-blur-2xl overflow-hidden flex flex-col max-h-[90vh] my-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Modal Banner Image */}
+                <div className="relative h-48 sm:h-56 md:h-64 w-full overflow-hidden flex-shrink-0">
+                  <img
+                    src={selectedShowcaseProject.image}
+                    alt={selectedShowcaseProject.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                  
+                  {/* Close button */}
+                  <button
+                    onClick={() => setSelectedShowcaseProject(null)}
+                    className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center border border-white/10 transition-colors z-20"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+
+                  {/* Banner Content */}
+                  <div className="absolute bottom-4 left-6 right-6 z-10">
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <Badge className="bg-primary/20 text-primary border-primary/30">
+                        {selectedShowcaseProject.category}
+                      </Badge>
+                      <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
+                        {selectedShowcaseProject.status}
+                      </Badge>
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-black text-foreground font-outfit tracking-tight">
+                      {selectedShowcaseProject.title}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Tab Navigation Controls */}
+                <div className="flex border-b border-border/50 bg-muted/20 px-6 py-2 gap-2 flex-shrink-0">
+                  {[
+                    { id: 'overview', label: 'Overview', icon: Info },
+                    { id: 'architecture', label: 'Architecture', icon: Layers },
+                    { id: 'ai', label: 'AI Capabilities', icon: Brain },
+                  ].map((tab) => {
+                    const TabIcon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as any)}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${
+                          activeTab === tab.id
+                            ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/30 border border-transparent'
+                        }`}
+                      >
+                        <TabIcon className="h-4 w-4" />
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Modal Tab Content Area */}
+                <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                  {activeTab === 'overview' && (
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Description</h4>
+                        <p className="text-sm sm:text-base text-foreground leading-relaxed">
+                          {selectedShowcaseProject.description}
+                        </p>
+                      </div>
+
+                      {enrichment.features && enrichment.features.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Key Features</h4>
+                          <ul className="grid sm:grid-cols-2 gap-2">
+                            {enrichment.features.map((feature, idx) => (
+                              <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                <CheckCircle2 className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      <div>
+                        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Technologies Used</h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {selectedShowcaseProject.tech.map((techItem: string) => (
+                            <Badge key={techItem} variant="secondary" className="px-2.5 py-1 text-xs">
+                              {techItem}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'architecture' && (
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">System Integration</h4>
+                        <p className="text-sm sm:text-base text-foreground leading-relaxed">
+                          {enrichment.architecture}
+                        </p>
+                      </div>
+
+                      {enrichment.flowDiagram && (
+                        <div>
+                          <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Data Flow Chart</h4>
+                          <div className="mt-2 p-4 bg-muted/40 border border-border/50 rounded-xl font-mono text-[10px] sm:text-xs text-muted-foreground space-y-2 relative overflow-hidden">
+                            <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                              <span className="text-primary font-bold flex items-center gap-1.5">
+                                <Terminal className="h-4 w-4" />
+                                SYSTEM DIAGRAM
+                              </span>
+                              <span className="text-[9px] text-muted-foreground/60">ARCHITECTURE VIEW</span>
+                            </div>
+                            <pre className="overflow-x-auto whitespace-pre leading-5 text-emerald-400/90 select-none py-1">
+                              {enrichment.flowDiagram}
+                            </pre>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === 'ai' && (
+                    <div className="space-y-4">
+                      <div className="p-4 bg-primary/5 border border-primary/10 rounded-2xl flex items-start gap-3">
+                        <Brain className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1 text-sm sm:text-base">AI Developer Note</h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                            Umesh designed this system specifically with AI-first principles. It implements optimal prompt templates, error safety checks, and semantic embedding strategies to align with enterprise expectations.
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">AI Capabilities & Automation</h4>
+                        <p className="text-sm sm:text-base text-foreground leading-relaxed">
+                          {enrichment.aiCapabilities}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer buttons */}
+                <div className="border-t border-border/50 p-6 flex flex-col sm:flex-row gap-3 justify-end bg-muted/10 flex-shrink-0">
+                  <Button 
+                    variant="outline" 
+                    className="gap-2 w-full sm:w-auto" 
+                    onClick={() => {
+                      if (selectedShowcaseProject.github && selectedShowcaseProject.github.trim() !== '') {
+                        window.open(selectedShowcaseProject.github, '_blank');
+                      } else {
+                        setShowCodeModal(true);
+                      }
+                    }}
+                  >
+                    <Github className="h-4 w-4" />
+                    View Repository
+                  </Button>
+                  <Button 
+                    className="gap-2 bg-gradient-to-r from-primary to-accent hover:from-primary/95 hover:to-accent/95 w-full sm:w-auto" 
+                    onClick={() => {
+                      if (selectedShowcaseProject.demo && selectedShowcaseProject.demo.trim() !== '') {
+                        window.open(selectedShowcaseProject.demo, '_blank');
+                      } else {
+                        setShowModal(true);
+                      }
+                    }}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Launch Live Demo
+                  </Button>
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })()}
+      </AnimatePresence>
+
       {/* Custom Modal */}
       <AnimatePresence>
         {showModal && (

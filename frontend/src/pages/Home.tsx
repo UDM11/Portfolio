@@ -307,10 +307,10 @@ const Home = () => {
         {/* Hero Section */}
         <motion.section
           ref={heroRef}
-          className="relative min-h-screen flex items-center justify-center overflow-hidden"
+          className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
           style={{ opacity }}
         >
-          {/* Dynamic Background */}
+          {/* Dynamic Background Grid & Image */}
           <div className="absolute inset-0 z-0">
             <motion.img
               src={heroBg}
@@ -320,10 +320,13 @@ const Home = () => {
                 scale: 1.1,
                 x: mousePosition.x * 20,
                 y: mousePosition.y * 20,
-                opacity: 0.15,
+                opacity: 0.08,
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90" />
+            {/* High-tech grid overlay */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-[0.25]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_85%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/20 to-background" />
           </div>
 
           {/* Floating Particles */}
@@ -360,26 +363,31 @@ const Home = () => {
           </div>
 
           {/* Hero Content */}
-          <div className="container mx-auto px-4 z-10 pt-16">
-            <div className="max-w-5xl mx-auto text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
+          <div className="container mx-auto px-4 z-10 pt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative max-w-4xl mx-auto p-6 sm:p-12 md:p-16 rounded-3xl border border-white/5 bg-gradient-to-b from-card/30 via-card/15 to-transparent backdrop-blur-2xl shadow-2xl hover:border-primary/20 transition-all duration-500 overflow-hidden group"
+            >
+              {/* Internal glow blobs */}
+              <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/15 rounded-full blur-[80px] pointer-events-none group-hover:bg-primary/20 transition-all duration-500" />
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-accent/15 rounded-full blur-[80px] pointer-events-none group-hover:bg-accent/20 transition-all duration-500" />
+
+              <div className="relative z-10 text-center">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2, duration: 0.6 }}
-                  className="mb-6"
+                  className="mb-4"
                 >
-                  <Badge className="px-4 py-2 text-sm font-medium bg-primary/10 text-primary border-primary/20 mb-4">
+                  <Badge className="px-4 py-2 text-sm font-medium bg-primary/10 text-primary border-primary/20 mb-2 hover:bg-primary/15 transition-colors">
                     👋 Welcome to my digital world
                   </Badge>
                 </motion.div>
 
                 <motion.h1
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 leading-tight"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 sm:mb-6 leading-tight tracking-tight font-outfit animate-glow-text"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
@@ -395,10 +403,10 @@ const Home = () => {
                   transition={{ delay: 0.8, duration: 0.6 }}
                   className="mb-6 sm:mb-8"
                 >
-                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-3 sm:mb-4 text-foreground">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 text-foreground tracking-tight">
                     Full-Stack Developer & Digital Innovator
                   </h2>
-                  <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+                  <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
                     Crafting exceptional digital experiences with cutting-edge technology.
                     Transforming ideas into powerful, scalable solutions that make a difference.
                   </p>
@@ -406,18 +414,14 @@ const Home = () => {
 
                 {/* Enhanced CTA Buttons */}
                 <motion.div
-                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0"
+                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-10 px-4 sm:px-0"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1, duration: 0.6 }}
                 >
-                  <Button size="lg" className="gap-3 group relative overflow-hidden" asChild>
+                  <Button size="lg" className="gap-3 group relative overflow-hidden bg-primary hover:bg-primary/90" asChild>
                     <Link to="/projects">
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity"
-                        whileHover={{ scale: 1.05 }}
-                      />
-                      <span className="relative z-10 flex items-center gap-2">
+                      <span className="relative z-10 flex items-center gap-2 font-medium">
                         <Play className="h-4 w-4" />
                         Explore My Work
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -428,7 +432,7 @@ const Home = () => {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="gap-3 group"
+                    className="gap-3 group border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                     onClick={() => setShowResumeModal(true)}
                   >
                     <Download className="h-4 w-4 group-hover:scale-110 transition-transform" />
@@ -438,7 +442,7 @@ const Home = () => {
 
                 {/* Enhanced Social Links */}
                 <motion.div
-                  className="flex gap-4 sm:gap-6 justify-center"
+                  className="flex gap-4 justify-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.2, duration: 0.6 }}
@@ -450,27 +454,27 @@ const Home = () => {
                   ].map((social, index) => (
                     <motion.div
                       key={social.label}
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                      initial={{ opacity: 0, y: 20 }}
+                      whileHover={{ scale: 1.15, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1.4 + index * 0.1 }}
+                      transition={{ delay: 1.3 + index * 0.08 }}
                     >
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="rounded-full w-10 h-10 sm:w-12 sm:h-12 bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                        className="rounded-full w-10 h-10 bg-white/5 hover:bg-primary hover:text-primary-foreground border border-white/5 transition-all duration-300"
                         asChild
                       >
                         <a href={social.href} target="_blank" rel="noopener noreferrer">
-                          <social.icon className="h-5 w-5" />
+                          <social.icon className="h-4.5 w-4.5" />
                         </a>
                       </Button>
                     </motion.div>
                   ))}
                 </motion.div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
 
           {/* Enhanced Scroll Indicator */}

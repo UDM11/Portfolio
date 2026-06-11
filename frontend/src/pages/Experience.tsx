@@ -9,6 +9,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { useExperience } from "@/hooks/usePortfolioData";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { GlowCard } from "@/components/ui/GlowCard";
 
 // Floating elements component
 const FloatingElements = () => {
@@ -105,7 +106,15 @@ const SkillsAchievements = () => {
               whileHover={{ scale: 1.05, y: -5 }}
               className="text-center"
             >
-              <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300">
+              <GlowCard 
+                glowColor={
+                  achievement.color.includes("yellow") ? "rgba(234, 179, 8, 0.15)" :
+                  achievement.color.includes("blue") ? "rgba(59, 130, 246, 0.15)" :
+                  achievement.color.includes("green") ? "rgba(16, 185, 129, 0.15)" :
+                  "rgba(168, 85, 247, 0.15)"
+                }
+                className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 h-full"
+              >
                 <CardContent className="p-4 sm:p-6">
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.2 }}
@@ -119,7 +128,7 @@ const SkillsAchievements = () => {
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{achievement.label}</p>
                 </CardContent>
-              </Card>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -205,7 +214,10 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => {
         whileHover={{ scale: 1.02, y: -5 }}
         transition={{ duration: 0.3 }}
       >
-        <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-xl">
+        <GlowCard 
+          glowColor={item.type === 'education' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)'}
+          className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300 hover:shadow-xl"
+        >
           <CardHeader className="pb-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <Badge className={`w-fit text-xs sm:text-sm ${
@@ -236,7 +248,7 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => {
               {item.description}
             </p>
           </CardContent>
-        </Card>
+        </GlowCard>
       </motion.div>
     </motion.div>
   );
