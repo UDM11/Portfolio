@@ -2,6 +2,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { GlowCard } from "@/components/ui/GlowCard";
+
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -122,7 +124,10 @@ const SkillStats = () => {
               whileHover={{ scale: 1.05, y: -5 }}
               className="text-center"
             >
-              <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300">
+              <GlowCard 
+                glowColor="rgba(244, 63, 94, 0.12)"
+                className="border border-white/5 bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-300"
+              >
                 <CardContent className="p-4 sm:p-6">
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.2 }}
@@ -136,7 +141,7 @@ const SkillStats = () => {
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
                 </CardContent>
-              </Card>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -266,7 +271,10 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
       onHoverEnd={() => setIsHovered(false)}
       className="group h-full"
     >
-      <Card className="border-none bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
+      <GlowCard 
+        glowColor="rgba(59, 130, 246, 0.15)"
+        className="border border-white/5 bg-card/50 backdrop-blur hover:bg-card/80 transition-all duration-500 hover:shadow-2xl h-full flex flex-col"
+      >
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-3">
             <motion.div
@@ -377,7 +385,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
             </div>
           </div>
         </CardContent>
-      </Card>
+      </GlowCard>
     </motion.div>
   );
 };

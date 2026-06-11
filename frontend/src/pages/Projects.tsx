@@ -11,6 +11,8 @@ const categories = ["All", "Web", "App", "UI/UX", "AI"];
 import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { GlowCard } from "@/components/ui/GlowCard";
+
 
 // Floating particles component
 const FloatingParticles = () => {
@@ -70,7 +72,10 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
       onHoverEnd={() => setIsHovered(false)}
       className="group"
     >
-      <Card className="overflow-hidden h-full flex flex-col border border-border/20 bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl hover:bg-gradient-to-br hover:from-card/90 hover:via-card/70 hover:to-card/50 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:border-primary/30">
+      <GlowCard 
+        glowColor="rgba(168, 85, 247, 0.15)"
+        className="overflow-hidden h-full flex flex-col border border-white/5 bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl hover:bg-gradient-to-br hover:from-card/90 hover:via-card/70 hover:to-card/50 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:border-primary/30"
+      >
         <CardHeader className="p-0 relative">
           <div className="relative overflow-hidden aspect-video">
             <motion.img
@@ -229,7 +234,7 @@ const ProjectCard = ({ project, index, onShowModal, onShowCodeModal }: { project
             ))}
           </div>
         </CardContent>
-      </Card>
+      </GlowCard>
     </motion.div>
   );
 };
