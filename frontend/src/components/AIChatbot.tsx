@@ -23,6 +23,7 @@ export const AIChatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
@@ -169,29 +170,132 @@ export const AIChatbot = () => {
     <>
       {/* Floating Chat Icon Button */}
       <motion.div
-        className="fixed bottom-4 right-20 sm:right-24 z-[110]"
+        className="fixed bottom-[104px] right-4 sm:bottom-[80px] sm:right-4 z-[110]"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.5 }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Button
-            onClick={() => setIsOpen((prev) => !isOpen)}
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] border border-primary/20 relative overflow-hidden text-white"
+        {/* Mobile Layout */}
+        <div className="sm:hidden flex flex-col items-end gap-2">
+          {/* Mobile Text */}
+          <motion.div
+            animate={{ y: [-1, 1, -1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <AnimatePresence mode="wait">
-              {isOpen ? (
-                <X className="h-6 w-6 text-white" key="close" />
-              ) : (
-                <MessageSquare className="h-6 w-6 text-white" key="open" />
-              )}
-            </AnimatePresence>
-            <span className="absolute top-0 right-0 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-            </span>
-          </Button>
-        </motion.div>
+            <div className="bg-primary text-white px-2 py-1 rounded-md shadow-lg text-xs font-medium whitespace-nowrap">
+              AI Assistant
+            </div>
+          </motion.div>
+          
+          {/* Mobile Button */}
+          <motion.div 
+            whileHover={{ scale: 1.1 }} 
+            whileTap={{ scale: 0.9 }}
+            animate={{
+              boxShadow: [
+                "0 4px 20px rgba(14, 165, 233, 0.3)",
+                "0 4px 30px rgba(14, 165, 233, 0.5)",
+                "0 4px 20px rgba(14, 165, 233, 0.3)",
+              ],
+              y: [-1, 1, -1],
+            }}
+            transition={{
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="rounded-full"
+          >
+            <Button
+              onClick={() => setIsOpen((prev) => !isOpen)}
+              className="w-12 h-12 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center border border-primary/20 relative overflow-hidden text-white"
+            >
+              <motion.div
+                className="absolute inset-0 bg-white/20 rounded-full"
+                animate={{ scale: [0, 2], opacity: [0.5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+              />
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <X className="h-6 w-6 text-white relative z-10" key="close" />
+                ) : (
+                  <MessageSquare className="h-6 w-6 text-white relative z-10" key="open" />
+                )}
+              </AnimatePresence>
+              <span className="absolute top-0 right-0 flex h-3 w-3 z-20">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden sm:flex items-center gap-3">
+          <AnimatePresence>
+            {isHovered && (
+              <motion.div
+                initial={{ opacity: 0, x: 20, scale: 0.8 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 20, scale: 0.8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <motion.div
+                  className="bg-primary text-white px-3 py-2 rounded-lg shadow-lg relative"
+                  animate={{ y: [-2, 2, -2] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <span className="text-sm font-medium whitespace-nowrap text-white">
+                    AI Assistant
+                  </span>
+                  <div className="absolute right-[-6px] top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-[6px] border-l-primary border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent" />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Desktop Button */}
+          <motion.div 
+            whileHover={{ scale: 1.1 }} 
+            whileTap={{ scale: 0.9 }}
+            animate={{
+              boxShadow: [
+                "0 4px 20px rgba(14, 165, 233, 0.3)",
+                "0 4px 30px rgba(14, 165, 233, 0.5)",
+                "0 4px 20px rgba(14, 165, 233, 0.3)",
+              ],
+              y: [-1, 1, -1],
+            }}
+            transition={{
+              boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="rounded-full"
+          >
+            <Button
+              onClick={() => setIsOpen((prev) => !isOpen)}
+              className="w-14 h-14 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center border border-primary/20 relative overflow-hidden text-white"
+            >
+              <motion.div
+                className="absolute inset-0 bg-white/20 rounded-full"
+                animate={{ scale: [0, 2], opacity: [0.5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+              />
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <X className="h-7 w-7 text-white relative z-10" key="close" />
+                ) : (
+                  <MessageSquare className="h-7 w-7 text-white relative z-10" key="open" />
+                )}
+              </AnimatePresence>
+              <span className="absolute top-0 right-0 flex h-3 w-3 z-20">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+            </Button>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* Floating Chat Panel */}
@@ -202,7 +306,7 @@ export const AIChatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-20 right-4 sm:right-24 w-[350px] sm:w-[380px] h-[500px] rounded-2xl border border-primary/20 bg-background/90 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden z-[120]"
+            className="fixed bottom-[160px] right-4 sm:bottom-[144px] sm:right-4 w-[calc(100vw-32px)] sm:w-[380px] h-[500px] rounded-2xl border border-primary/20 bg-background/90 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden z-[120]"
           >
             {/* Header */}
             <div className="p-4 bg-muted/50 border-b border-border/10 flex items-center justify-between">

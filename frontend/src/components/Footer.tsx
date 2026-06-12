@@ -1,12 +1,35 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Heart, MapPin, Phone, Globe, Code2, Sparkles } from "lucide-react";
-import { Button } from "./ui/button";
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  Heart, 
+  MapPin, 
+  Globe, 
+  Code2, 
+  ArrowRight
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
-
-
 const Footer = () => {
+  const [localTime, setLocalTime] = useState("");
 
+  // Clean local time display for Kathmandu, Nepal (UTC+5:45)
+  useEffect(() => {
+    const updateTime = () => {
+      const options = {
+        timeZone: "Asia/Kathmandu",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      } as const;
+      setLocalTime(new Date().toLocaleTimeString("en-US", options));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const quickLinks = [
     { name: "Home", href: "/" },
@@ -17,230 +40,201 @@ const Footer = () => {
     { name: "Contact", href: "/contact" },
   ];
 
+  const services = [
+    "Frontend Engineering",
+    "Backend & API Development",
+    "Full-Stack Web Applications",
+    "Database System Architecture",
+    "Web Performance & SEO",
+  ];
+
+  const marqueeTechs = [
+    "React", "TypeScript", "Python", "FastAPI", "Supabase", "PostgreSQL", 
+    "Docker", "TailwindCSS", "Node.js", "Git", "REST APIs", "Next.js"
+  ];
+
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/UDM11", icon: Github },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/umesh-darlami-magar-a96a37284/", icon: Linkedin },
     { name: "Email", href: "https://mail.google.com/mail/?view=cm&fs=1&to=darlamiumesh123@gmail.com", icon: Mail },
   ];
 
-  const services = [
-    "Frontend Development",
-    "Backend Development", 
-    "AI Development",
-    "Custom AI Chatbots",
-    "Full-Stack Solutions",
-    "API Development",
-    "LLMs Integration",
-    "WhatsApp Chatbots",
-    "AI Automation",
-  ];
-
   return (
-    <footer className="relative bg-gradient-to-br from-background via-background to-muted/20 border-t border-border/50">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <footer className="relative bg-black border-t border-x border-white/10 rounded-t-[2.5rem] sm:rounded-t-[3.5rem] overflow-hidden mx-auto max-w-[95rem] shadow-[0_-20px_40px_rgba(0,0,0,0.8)] z-20">
+      {/* Custom light-colored grid background for black footer */}
+      <div className="absolute inset-0 footer-grid-pattern opacity-[0.06] z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,transparent_50%,#000000_95%)] z-0" />
+
+      {/* Subtle animated background glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div
-          className="absolute top-10 left-10 w-32 h-32 rounded-full bg-primary/5 blur-xl"
+          className="absolute -bottom-20 left-1/3 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.4, 0.2],
           }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-10 right-10 w-24 h-24 rounded-full bg-accent/5 blur-xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.6, 0.3, 0.6],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
-          {/* Brand Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="sm:col-span-2 lg:col-span-1"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                <Code2 className="h-5 w-5 text-white" />
-              </div>
-              <h3 className="text-xl font-bold gradient-text">Umesh Darlami</h3>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-xs sm:max-w-none">
-              Full-Stack Developer passionate about creating innovative digital solutions 
-              that make a difference.
-            </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-              <MapPin className="h-4 w-4" />
-              <span>Kathmandu, Nepal</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Globe className="h-4 w-4" />
-              <span>Available Worldwide</span>
-            </div>
-          </motion.div>
+      <div className="container mx-auto px-6 sm:px-10 lg:px-16 pt-16 pb-8 relative z-10">
+        {/* Infinite Tech Stack Marquee / Ticker */}
+        <div className="w-full overflow-hidden border-y border-white/5 py-4 mb-12 bg-black/60 backdrop-blur-sm relative">
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+          
+          <div className="flex w-max">
+            <motion.div 
+              className="flex gap-16 pr-16 whitespace-nowrap"
+              animate={{ x: [0, "-100%"] }}
+              transition={{
+                ease: "linear",
+                duration: 30,
+                repeat: Infinity,
+              }}
+            >
+              {marqueeTechs.map((tech, idx) => (
+                <span key={idx} className="text-xs font-mono font-bold tracking-widest text-gray-500 hover:text-primary transition-colors cursor-default uppercase flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+            
+            <motion.div 
+              className="flex gap-16 pr-16 whitespace-nowrap"
+              animate={{ x: [0, "-100%"] }}
+              transition={{
+                ease: "linear",
+                duration: 30,
+                repeat: Infinity,
+              }}
+            >
+              {marqueeTechs.map((tech, idx) => (
+                <span key={idx} className="text-xs font-mono font-bold tracking-widest text-gray-500 hover:text-primary transition-colors cursor-default uppercase flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+          </div>
+        </div>
 
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-primary to-accent rounded-full" />
-              Quick Links
+        {/* Main Grid Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12 pt-2">
+          {/* Identity column */}
+          <div className="md:col-span-1 lg:col-span-4">
+            <div className="flex items-center gap-3 mb-4">
+              <motion.div 
+                className="w-9 h-9 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Code2 className="h-4.5 w-4.5 text-white" />
+              </motion.div>
+              <span className="text-lg font-black tracking-wide font-outfit text-white">Umesh Darlami</span>
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
+              Full-Stack Developer focused on crafting high-performance, scalable web solutions and user-centered digital experiences.
+            </p>
+            <div className="flex flex-col gap-2.5 text-xs text-gray-400">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                <span>Kathmandu, Nepal</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-accent shrink-0" />
+                <span>Local Time: {localTime || "--:--"} (NPT)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick links */}
+          <div className="md:col-span-1 lg:col-span-2">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2 font-outfit">
+              <div className="w-1.5 h-3.5 bg-primary rounded-full" />
+              Navigation
             </h4>
-            <ul className="space-y-2">
-              {quickLinks.map((link, index) => (
-                <motion.li
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
                   <Link
                     to={link.href}
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-2 group"
+                    className="text-gray-400 hover:text-primary transition-all duration-300 text-sm flex items-center gap-2 group hover:translate-x-1"
                   >
-                    <motion.div
-                      className="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      whileHover={{ scale: 1.5 }}
-                    />
+                    <span className="w-1 h-1 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link.name}
                   </Link>
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-primary to-accent rounded-full" />
-              Services
+          {/* Core Services */}
+          <div className="md:col-span-1 lg:col-span-3">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2 font-outfit">
+              <div className="w-1.5 h-3.5 bg-primary rounded-full" />
+              Core Capabilities
             </h4>
-            <ul className="space-y-2">
-              {services.map((service, index) => (
-                <motion.li
-                  key={service}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="text-muted-foreground text-sm flex items-center gap-2"
-                >
-                  <Sparkles className="h-3 w-3 text-primary" />
-                  {service}
-                </motion.li>
+            <ul className="space-y-3">
+              {services.map((service) => (
+                <li key={service} className="text-gray-400 text-sm flex items-center gap-2 hover:text-primary transition-colors duration-300 cursor-default group">
+                  <ArrowRight className="h-3 w-3 text-primary/60 group-hover:translate-x-1 group-hover:text-primary transition-all shrink-0" />
+                  <span>{service}</span>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Contact & Social */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <div className="w-1 h-6 bg-gradient-to-b from-primary to-accent rounded-full" />
-              Let's Connect
+          {/* Tech stack and social icons */}
+          <div className="md:col-span-1 lg:col-span-3">
+            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center gap-2 font-outfit">
+              <div className="w-1.5 h-3.5 bg-primary rounded-full" />
+              Connect
             </h4>
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <a href="mailto:umesh.darlami@example.com" className="hover:text-primary transition-colors">
-                  darlamiumesh123@gmail.com
-                </a>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <a href="tel:+9779800000000" className="hover:text-primary transition-colors">
-                  +977-9863755744
-                </a>
-              </div>
-            </div>
+            <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+              Find me on github or LinkedIn, or send an email query directly.
+            </p>
             
-            <div className="flex gap-2 sm:gap-3">
-              {socialLinks.map((social, index) => (
+            <div className="flex gap-3">
+              {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-card/50 backdrop-blur border border-border/50 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary/50 transition-all duration-300"
+                  title={social.name}
                 >
-                  <social.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <social.icon className="h-4.5 w-4.5" />
                 </motion.a>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Bottom Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="pt-6 sm:pt-8 border-t border-border/50"
-        >
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
-              <span>© 2024 Umesh Darlami.</span>
-              <div className="flex items-center gap-1">
-                <span>Made with</span>
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                >
-                  <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 fill-current" />
-                </motion.div>
-                <span>in Nepal</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-xs text-muted-foreground">Available for work</span>
-              </div>
+        {/* Bottom copyright & Scroll to Top */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 text-center md:text-left font-mono">
+            <span>© 2026 Umesh Darlami. All rights reserved.</span>
+            <span className="hidden sm:inline text-white/10">|</span>
+            <div className="flex items-center gap-1">
+              <span>Made with</span>
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="inline-block"
+              >
+                <Heart className="h-3.5 w-3.5 text-red-500 fill-current" />
+              </motion.div>
+              <span>in Nepal</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
-
-
     </footer>
   );
 };

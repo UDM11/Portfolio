@@ -22,7 +22,7 @@ export const GlowCard = React.forwardRef<HTMLDivElement, GlowCardProps>(
       <div
         onMouseMove={handleMouseMove}
         className={cn(
-          "group relative rounded-2xl border border-white/10 bg-muted/10 backdrop-blur-md transition-all duration-300 hover:border-primary/30 hover:bg-muted/15 overflow-hidden",
+          "group relative rounded-2xl border border-white/10 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/40 hover:bg-card/50 overflow-hidden shadow-lg hover:shadow-primary/5",
           className
         )}
         ref={ref}

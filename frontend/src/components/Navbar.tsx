@@ -1,56 +1,21 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Moon, Sun, Code2, Sparkles, Home, User, FolderOpen, Briefcase, Award, MessageCircle } from "lucide-react";
+import { 
+  Menu, X, Code2, Sparkles, Home, User, FolderOpen, Briefcase, Award, 
+  MessageCircle, Lock, Github, Linkedin, Mail 
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
+
 const navItems = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Projects", href: "/projects" },
   { name: "Experience", href: "/experience" },
   { name: "Skills", href: "/skills" },
-  { name: "Contact", href: "/contact" }
+  { name: "Contact", href: "/contact" },
+  { name: "Login", href: "/admin" }
 ];
-
-function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const initialTheme = savedTheme || "dark";
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-  };
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={toggleTheme}
-        className="rounded-full relative overflow-hidden group bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-      >
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          initial={false}
-        />
-        <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 relative z-10" />
-        <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 z-10" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    </motion.div>
-  );
-}
 
 // Icon mapping for navigation items
 const getNavIcon = (name: string) => {
@@ -61,6 +26,7 @@ const getNavIcon = (name: string) => {
     Experience: Briefcase,
     Skills: Award,
     Contact: MessageCircle,
+    Login: Lock,
   };
   return icons[name as keyof typeof icons] || Home;
 };
@@ -77,22 +43,22 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
     >
       <motion.div
         className="relative px-4 py-2 rounded-full overflow-hidden flex items-center gap-2"
-        whileHover={{ scale: 1.05, y: -2 }}
+        whileHover={{ scale: 1.05, y: -1 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
         {/* Animated background */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100"
+          className="absolute inset-0 bg-gradient-to-r from-primary/15 via-accent/15 to-primary/15 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           initial={false}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
         />
         
         {/* Active indicator */}
         {isActive && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-full"
+            className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 border border-primary/20 rounded-full shadow-inner shadow-primary/5"
             layoutId="activeNav"
             initial={false}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
@@ -107,9 +73,9 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
         </div>
         
         {/* Text */}
-        <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
+        <span className={`relative z-10 text-sm font-semibold transition-colors duration-300 ${
           isActive 
-            ? 'text-primary font-semibold' 
+            ? 'text-primary' 
             : 'text-muted-foreground group-hover:text-foreground'
         }`}>
           {item.name}
@@ -146,8 +112,8 @@ const MobileNavLink = ({ item, index, onClick }: { item: any; index: number; onC
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.3 }}
-      whileHover={{ x: 10 }}
+      transition={{ delay: index * 0.05, duration: 0.3 }}
+      whileHover={{ x: 6 }}
     >
       <Link
         to={item.href}
@@ -155,14 +121,14 @@ const MobileNavLink = ({ item, index, onClick }: { item: any; index: number; onC
           onClick();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
-        className={`block py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 relative group ${
+        className={`block py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 relative group ${
           isActive 
-            ? 'text-primary bg-primary/10 font-semibold' 
+            ? 'text-primary bg-primary/10' 
             : 'text-muted-foreground hover:text-foreground hover:bg-card/50'
         }`}
       >
         <div className="flex items-center gap-3">
-          <IconComponent className={`h-5 w-5 transition-colors duration-300 ${
+          <IconComponent className={`h-4.5 w-4.5 transition-colors duration-300 ${
             isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'
           }`} />
           <span>{item.name}</span>
@@ -172,7 +138,7 @@ const MobileNavLink = ({ item, index, onClick }: { item: any; index: number; onC
               animate={{ scale: 1 }}
               className="ml-auto"
             >
-              <Sparkles className="h-4 w-4 text-primary" />
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
             </motion.div>
           )}
         </div>
@@ -190,129 +156,139 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      // Close mobile menu when scrolling
-      if (mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [mobileMenuOpen]);
+  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-lg' 
-          : 'bg-background/80 backdrop-blur-lg border-b border-border/30'
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-18">
-          {/* Logo */}
-          <div className="relative group flex-shrink-0">
-            <Link 
-              to="/" 
-              className="flex items-center gap-2 sm:gap-3"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg">
-                <Code2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-              </div>
-              <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block">
-                Umesh Darlami
-              </span>
-              <span className="text-lg font-bold gradient-text block sm:hidden">
-                UD
-              </span>
-            </Link>
-          </div>
+  // Lock scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-2">
-            {navItems.map((item) => {
-              const isActive = location.pathname === item.href;
-              return (
-                <NavLink key={item.name} item={item} isActive={isActive} />
-              );
-            })}
-            <div className="ml-4">
-              <ThemeToggle />
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? 'pt-4 px-4 sm:px-6 lg:px-8' : 'pt-0'
+        }`}
+      >
+        <div className={`mx-auto transition-all duration-500 ${
+          scrolled 
+            ? 'max-w-5xl rounded-2xl border border-white/10 bg-card/65 backdrop-blur-xl shadow-2xl shadow-primary/5 px-6' 
+            : 'w-full border-b border-white/5 bg-background/40 backdrop-blur-md px-4'
+        }`}>
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="relative group flex-shrink-0">
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 sm:gap-3"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                <motion.div 
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
+                  whileHover={{ rotate: 360, scale: 1.05 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Code2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                </motion.div>
+                <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block font-outfit tracking-tight">
+                  Umesh Darlami
+                </span>
+                <span className="text-lg font-bold gradient-text block sm:hidden font-outfit">
+                  UD
+                </span>
+              </Link>
+            </div>
+
+            {/* Desktop Navigation Links */}
+            <div className="hidden lg:flex items-center gap-2">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <NavLink key={item.name} item={item} isActive={isActive} />
+                );
+              })}
+            </div>
+
+            {/* Mobile Menu Toggle Button */}
+            <div className="lg:hidden flex items-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="rounded-full bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 relative overflow-hidden group"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </motion.div>
             </div>
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-3">
-            <ThemeToggle />
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="rounded-full bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 relative overflow-hidden group"
-              >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  initial={false}
-                />
-                <AnimatePresence mode="wait">
-                  {mobileMenuOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="relative z-10"
-                    >
-                      <X className="h-5 w-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="relative z-10"
-                    >
-                      <Menu className="h-5 w-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
-          </div>
         </div>
+      </motion.nav>
 
-        {/* Enhanced Mobile Navigation */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
+      {/* Slide-in Mobile Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150]"
+            />
+            
+            {/* Drawer Shell */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed top-0 right-0 h-screen w-3/4 max-w-[300px] bg-card/95 border-l border-border/10 backdrop-blur-2xl shadow-2xl p-6 z-[160] flex flex-col justify-between"
             >
-              <motion.div
-                className="py-6 border-t border-border/50 bg-card/20 backdrop-blur rounded-b-2xl mx-4 mb-4"
-                initial={{ y: -20 }}
-                animate={{ y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <div className="space-y-2">
+              <div>
+                {/* Header */}
+                <div className="flex items-center justify-between pb-5 border-b border-border/10 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary to-accent flex items-center justify-center">
+                      <Code2 className="h-4.5 w-4.5 text-white" />
+                    </div>
+                    <span className="text-sm font-extrabold gradient-text font-outfit">Umesh Darlami</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-full w-8 h-8 flex items-center justify-center border border-border/10 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                {/* Stacked Links */}
+                <div className="space-y-1.5 overflow-y-auto pr-1">
                   {navItems.map((item, index) => (
                     <MobileNavLink
                       key={item.name}
@@ -322,11 +298,40 @@ export function Navbar() {
                     />
                   ))}
                 </div>
-              </motion.div>
+              </div>
+
+              {/* Sidebar Footer */}
+              <div className="pt-6 border-t border-border/10 space-y-4">
+                <div className="flex gap-2.5 justify-center">
+                  {[
+                    { icon: Github, href: "https://github.com/UDM11" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/umesh-darlami-magar-a96a37284/" },
+                    { icon: Mail, href: "mailto:darlamiumesh123@gmail.com" },
+                  ].map((social, index) => {
+                    const SocialIcon = social.icon;
+                    return (
+                      <motion.a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1, y: -1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-9 h-9 rounded-full bg-muted/40 hover:bg-primary hover:text-primary-foreground border border-border/10 flex items-center justify-center text-muted-foreground transition-all duration-300"
+                      >
+                        <SocialIcon className="h-4 w-4" />
+                      </motion.a>
+                    );
+                  })}
+                </div>
+                <p className="text-[10px] text-muted-foreground/80 font-mono text-center tracking-wide uppercase">
+                  Kathmandu, Nepal
+                </p>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
