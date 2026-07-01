@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { useSkills } from "@/hooks/usePortfolioData";
+import SEO from "@/components/SEO";
 import {
   Code2,
   Database,
@@ -408,6 +409,11 @@ const Skills = () => {
 
   return (
     <div className="min-h-screen text-foreground">
+      <SEO 
+        title="Technical Skills Matrix | Umesh Darlami"
+        description="Technical competencies of Umesh Darlami, spanning frontend (React, TS), backend (FastAPI, Node), database management (Supabase, PostgreSQL), and AI integrations."
+        keywords="Umesh Darlami skills, developer stack, React TypeScript developer, Python developer, database skills"
+      />
       <Navbar />
       <main>
         {/* Hero Section */}

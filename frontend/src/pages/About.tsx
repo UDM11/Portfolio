@@ -11,6 +11,7 @@ import { ArrowRight, Calendar, MapPin, Award, Heart, Coffee, Rocket, Star, Spark
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
+import SEO from "@/components/SEO";
 
 const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
 
@@ -328,6 +329,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="About Umesh Darlami | Full-Stack Developer & Software Engineer"
+        description="Read about Umesh Darlami's background, education (BCSIT student at Liberty College), key capabilities, and programming philosophy."
+        keywords="About Umesh Darlami, Umesh Darlami education, Liberty College BCSIT, developer background, software engineer Nepal"
+      />
       <Navbar />
       <main className="relative pt-24">
         {/* Floating Elements Background */}

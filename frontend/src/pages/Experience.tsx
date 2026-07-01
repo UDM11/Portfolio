@@ -11,6 +11,7 @@ import * as LucideIcons from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
+import SEO from "@/components/SEO";
 
 // Floating background elements
 const FloatingElements = () => {
@@ -305,6 +306,11 @@ const Experience = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Work Experience & Education | Umesh Darlami"
+        description="Professional software engineering experience and academic history of Umesh Darlami, detailing roles, organizations, and key achievements."
+        keywords="Umesh Darlami experience, Umesh Darlami resume, career history, developer experience, education timeline"
+      />
       <Navbar />
       <main className="relative pt-24">
         {/* Floating background backdrop */}

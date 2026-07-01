@@ -15,6 +15,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { useToast } from "@/hooks/use-toast";
+import SEO from "@/components/SEO";
 
 const categories = ["All", "Web", "App", "UI/UX", "AI"];
 
@@ -492,6 +493,11 @@ const Projects = () => {
 
   return (
     <div className="min-h-screen text-foreground">
+      <SEO 
+        title="Projects Showcase | Umesh Darlami"
+        description="Explore a curated list of software engineering and development projects built by Umesh Darlami, including custom AI chatbots, APIs, and web applications."
+        keywords="Umesh Darlami projects, portfolio projects, AI chatbots, FastAPI portfolio, React apps"
+      />
       <Navbar />
       <main>
         {/* Hero Section */}

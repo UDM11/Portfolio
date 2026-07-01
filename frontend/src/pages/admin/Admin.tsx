@@ -4,6 +4,7 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 // Modular tab views
 import { Login } from "./Login";
@@ -88,6 +89,10 @@ const Admin = () => {
   if (!isAuthenticated) {
     return (
       <div className="relative min-h-screen flex flex-col justify-center items-center px-4">
+        <SEO 
+          title="Admin Control Center | Umesh Darlami"
+          description="Database control dashboard for portfolio management."
+        />
         <BackgroundGrid />
         <Login API_BASE={API_BASE} onSuccess={handleLoginSuccess} />
       </div>
@@ -105,6 +110,10 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO 
+        title="Admin Control Center | Umesh Darlami"
+        description="Database control dashboard for portfolio management."
+      />
       <BackgroundGrid />
       <Navbar />
 

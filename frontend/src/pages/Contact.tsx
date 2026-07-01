@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { GlowCard } from "@/components/ui/GlowCard";
+import SEO from "@/components/SEO";
 
 // Floating background elements
 const FloatingElements = () => {
@@ -417,6 +418,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Contact Umesh Darlami | Freelance & Collaboration"
+        description="Get in touch with Umesh Darlami for full-stack development projects, custom AI integrations, freelance work, or general inquiries."
+        keywords="contact Umesh Darlami, hire developer Nepal, freelance software engineer, chatbot consultation"
+      />
       <Navbar />
       <main className="relative pt-24">
         {/* Floating elements backdrop */}

@@ -42,7 +42,7 @@ const NavLink = ({ item, isActive }: { item: any; isActive: boolean }) => {
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
       <motion.div
-        className="relative px-4 py-2 rounded-full overflow-hidden flex items-center gap-2"
+        className="relative px-2.5 xl:px-4 py-2 rounded-full overflow-hidden flex items-center gap-1.5 xl:gap-2"
         whileHover={{ scale: 1.05, y: -1 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -152,6 +152,9 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  const mainNavItems = navItems.filter(item => item.name !== "Login");
+  const loginItem = navItems.find(item => item.name === "Login");
+
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -193,7 +196,7 @@ export function Navbar() {
             ? 'max-w-5xl rounded-2xl border border-white/10 bg-card/65 backdrop-blur-xl shadow-2xl shadow-primary/5 px-6' 
             : 'w-full border-b border-white/5 bg-background/40 backdrop-blur-md px-4'
         }`}>
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
             <div className="relative group flex-shrink-0">
               <Link 
@@ -202,11 +205,11 @@ export function Navbar() {
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 <motion.div 
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
-                  whileHover={{ rotate: 360, scale: 1.05 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl overflow-hidden bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <Code2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
                 </motion.div>
                 <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block font-outfit tracking-tight">
                   Umesh Darlami
@@ -217,9 +220,9 @@ export function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center gap-2">
-              {navItems.map((item) => {
+            {/* Desktop Navigation Links (Centered with flex-grow and justify-center) */}
+            <div className="hidden lg:flex items-center justify-center flex-1 gap-1 xl:gap-2">
+              {mainNavItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
                   <NavLink key={item.name} item={item} isActive={isActive} />
@@ -227,21 +230,29 @@ export function Navbar() {
               })}
             </div>
 
-            {/* Mobile Menu Toggle Button */}
-            <div className="lg:hidden flex items-center">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="rounded-full bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 relative overflow-hidden group"
+            {/* Right-side Action (Login on Desktop, Menu Toggle on Mobile) */}
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="hidden lg:block">
+                {loginItem && (
+                  <NavLink item={loginItem} isActive={location.pathname === loginItem.href} />
+                )}
+              </div>
+
+              <div className="lg:hidden flex items-center">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </motion.div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="rounded-full bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 relative overflow-hidden group"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
@@ -272,8 +283,8 @@ export function Navbar() {
                 {/* Header */}
                 <div className="flex items-center justify-between pb-5 border-b border-border/10 mb-6">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                      <Code2 className="h-4.5 w-4.5 text-white" />
+                    <div className="w-8 h-8 rounded-lg overflow-hidden bg-gradient-to-r from-primary to-accent flex items-center justify-center">
+                      <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-sm font-extrabold gradient-text font-outfit">Umesh Darlami</span>
                   </div>

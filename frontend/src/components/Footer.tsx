@@ -126,11 +126,11 @@ const Footer = () => {
           <div className="md:col-span-1 lg:col-span-4">
             <div className="flex items-center gap-3 mb-4">
               <motion.div 
-                className="w-9 h-9 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
+                className="w-9 h-9 rounded-xl overflow-hidden bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <Code2 className="h-4.5 w-4.5 text-white" />
+                <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
               </motion.div>
               <span className="text-lg font-black tracking-wide font-outfit text-white">Umesh Darlami</span>
             </div>

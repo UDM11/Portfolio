@@ -5,6 +5,7 @@ import { Home, ArrowLeft, Terminal, AlertTriangle, Sparkles } from "lucide-react
 import { motion } from "framer-motion";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { Badge } from "@/components/ui/badge";
+import SEO from "@/components/SEO";
 
 // Hydration-safe Floating Particles
 const FloatingParticles = () => {
@@ -96,6 +97,10 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4 relative overflow-hidden">
+      <SEO 
+        title="404 - Page Not Found | Umesh Darlami"
+        description="The page you are looking for does not exist or has been shifted."
+      />
       {/* Background patterns */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.1]" />

@@ -18,6 +18,7 @@ import profileImg from "@/assets/profile.jpg";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import SEO from "@/components/SEO";
 
 // Hydration-safe Floating Particles
 const FloatingParticles = () => {
@@ -853,6 +854,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen text-foreground">
+      <SEO 
+        title="Umesh Darlami - Full-Stack Developer & Software Engineer | BCSIT Student"
+        description="Official portfolio of Umesh Darlami, a full-stack developer, software engineer, and BCSIT student in Kathmandu, Nepal. Specializing in React, FastAPI, LLM integrations, and custom AI chatbots."
+        keywords="Umesh Darlami, Umesh Darlami Magar, Full-Stack Developer, Software Engineer, Nepal Developer, BCSIT, React Developer, FastAPI, AI Integration, WhatsApp Chatbot Developer, Portfolio"
+      />
       <Navbar />
       <main>
         {/* Hero Section */}
