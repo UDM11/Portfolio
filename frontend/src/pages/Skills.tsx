@@ -130,9 +130,9 @@ const SkillStats = () => {
                   <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center">
                     <stat.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-black mb-1 gradient-text font-outfit">
+                  <div className="text-xl sm:text-2xl font-black mb-1 gradient-text font-outfit">
                     {stat.number}
-                  </h3>
+                  </div>
                   <p className="text-[10px] sm:text-xs text-muted-foreground font-semibold uppercase tracking-wider">{stat.label}</p>
                 </CardContent>
               </GlowCard>

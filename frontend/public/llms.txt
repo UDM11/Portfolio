@@ -1,0 +1,11 @@
+# Umesh Darlami - Full-Stack Developer & Software Engineer
+
+> Official portfolio of Umesh Darlami, a software developer specializing in building modern web systems, custom AI chatbots, APIs, and database-driven solutions.
+
+## Main Navigation Pages
+- [Home](https://umeshdarlami.com.np/): Main landing page featuring summary, metrics, core technology highlights, and developer console.
+- [About](https://umeshdarlami.com.np/about): Biography, core competencies (Full-stack web, AI Integration, DB structures), timeline, and fun facts.
+- [Projects](https://umeshdarlami.com.np/projects): Curated list of full-stack systems, chatbots, APIs, and automation engines.
+- [Experience](https://umeshdarlami.com.np/experience): Professional timeline, education, certifications, and resume download options.
+- [Skills](https://umeshdarlami.com.np/skills): Structured roadmap of technology stack, frameworks, and estimated proficiency metrics.
+- [Contact](https://umeshdarlami.com.np/contact): Inquiries form, direct email links, and WhatsApp messaging.

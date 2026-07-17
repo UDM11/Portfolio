@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -27,16 +27,22 @@ app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(upload.router)
 
+class CacheControlledStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope) -> Response:
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return response
+
 # Serve static frontend files if directory exists
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(os.path.join(static_dir, "assets")):
-    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    app.mount("/assets", CacheControlledStaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
 
 @app.get("/")
 async def root():
     index_path = os.path.join(static_dir, "index.html")
     if os.path.exists(index_path):
-        return FileResponse(index_path)
+        return FileResponse(index_path, headers={"Cache-Control": "no-cache"})
     return {"status": "healthy", "service": "Portfolio API"}
 
 # SPA catch-all routing (React Router)
@@ -48,11 +54,11 @@ async def serve_spa(path: str):
         
     local_path = os.path.join(static_dir, path)
     if os.path.isfile(local_path):
-        return FileResponse(local_path)
+        return FileResponse(local_path, headers={"Cache-Control": "public, max-age=86400"})
         
     index_path = os.path.join(static_dir, "index.html")
     if os.path.exists(index_path):
-        return FileResponse(index_path)
+        return FileResponse(index_path, headers={"Cache-Control": "no-cache"})
         
     return {"error": "Not Found"}
 

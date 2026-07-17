@@ -13,7 +13,7 @@ import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import SEO from "@/components/SEO";
 
-const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
+const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.webp";
 
 // Floating elements component
 const FloatingElements = () => {
@@ -373,7 +373,7 @@ const About = () => {
                 </div>
 
                 <div className="text-center mt-6">
-                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Umesh Darlami</h2>
+                  <div className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-outfit">Umesh Darlami</div>
                   <p className="text-xs sm:text-sm text-primary font-medium mt-1 uppercase tracking-wider">
                     Full-Stack Developer
                   </p>
@@ -400,16 +400,16 @@ const About = () => {
 
                 {/* Quick Social Shortcuts */}
                 <div className="flex justify-center gap-3 pt-6 border-t border-border/10 mt-6">
-                  <a href="https://github.com/UDM11" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
+                  <a href="https://github.com/UDM11" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
                     <LucideIcons.Github className="h-4 w-4" />
                   </a>
-                  <a href="https://www.linkedin.com/in/umesh-darlami-magar-a96a37284/" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
+                  <a href="https://www.linkedin.com/in/umesh-darlami-magar-a96a37284/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
                     <LucideIcons.Linkedin className="h-4 w-4" />
                   </a>
-                  <a href="mailto:darlamiumesh123@gmail.com" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
+                  <a href="mailto:darlamiumesh123@gmail.com" aria-label="Email" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
                     <LucideIcons.Mail className="h-4 w-4" />
                   </a>
-                  <a href="https://wa.me/9779863755744" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
+                  <a href="https://wa.me/9779863755744" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="p-2.5 rounded-xl bg-muted/40 border border-border/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300">
                     <LucideIcons.MessageSquare className="h-4 w-4" />
                   </a>
                 </div>

@@ -13,8 +13,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { useState, useEffect, useRef } from "react";
-import heroBg from "@/assets/hero-bg.jpg";
-import profileImg from "@/assets/profile.jpg";
+import heroBg from "@/assets/hero-bg.webp";
+import profileImg from "@/assets/profile.webp";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -379,9 +379,9 @@ const StatsSection = () => {
                   <div className="w-10 h-10 mb-4 rounded-xl bg-primary/10 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                     <stat.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold mb-1 tracking-tight gradient-text">
+                  <div className="text-2xl sm:text-3xl font-extrabold mb-1 tracking-tight gradient-text font-outfit">
                     {stat.number}
-                  </h3>
+                  </div>
                   <p className="text-sm font-semibold text-foreground/90 mb-1">{stat.label}</p>
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed mt-2 border-t border-border/5 pt-2">
@@ -750,6 +750,7 @@ const HeroText = ({ onOpenResume }: { onOpenResume: () => void }) => {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={social.label}
             whileHover={{ scale: 1.08, y: -1.5 }}
             whileTap={{ scale: 0.96 }}
             className="rounded-full w-9 h-9 flex items-center justify-center bg-card border border-border/10 hover:border-primary/30 text-muted-foreground hover:text-primary transition-all duration-300 shadow-sm"

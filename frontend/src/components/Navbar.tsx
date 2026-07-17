@@ -247,6 +247,7 @@ export function Navbar() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    aria-label="Toggle mobile menu"
                     className="rounded-full bg-card/50 backdrop-blur hover:bg-primary hover:text-primary-foreground transition-all duration-300 relative overflow-hidden group"
                   >
                     <Menu className="h-5 w-5" />
@@ -292,6 +293,7 @@ export function Navbar() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setMobileMenuOpen(false)}
+                    aria-label="Close mobile menu"
                     className="rounded-full w-8 h-8 flex items-center justify-center border border-border/10 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground"
                   >
                     <X className="h-4 w-4" />

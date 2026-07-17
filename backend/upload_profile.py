@@ -2,7 +2,7 @@ import os
 from database import supabase
 
 def upload_profile_image():
-    image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "src", "assets", "profile.jpg"))
+    image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "src", "assets", "profile.webp"))
     print(f"Reading profile image from: {image_path}")
     
     if not os.path.exists(image_path):
@@ -13,7 +13,7 @@ def upload_profile_image():
         file_content = f.read()
         
     bucket_name = "project-images"
-    file_name = "profile.jpg"
+    file_name = "profile.webp"
     
     print(f"Uploading to Supabase bucket '{bucket_name}' as '{file_name}'...")
     
@@ -21,7 +21,7 @@ def upload_profile_image():
         # First, try to remove if it exists to overwrite it cleanly
         try:
             supabase.storage.from_(bucket_name).remove([file_name])
-            print("Removed existing profile.jpg in the bucket.")
+            print("Removed existing profile.webp in the bucket.")
         except Exception:
             pass
             
@@ -29,7 +29,7 @@ def upload_profile_image():
         response = supabase.storage.from_(bucket_name).upload(
             path=file_name,
             file=file_content,
-            file_options={"content-type": "image/jpeg"}
+            file_options={"content-type": "image/webp"}
         )
         print("Upload successful!")
         

@@ -26,7 +26,7 @@ export const AIChatbot = () => {
   const [isHovered, setIsHovered] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.jpg";
+  const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.webp";
 
   // Initial welcome message
   useEffect(() => {

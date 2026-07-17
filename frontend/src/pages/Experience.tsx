@@ -140,9 +140,9 @@ const SkillsAchievements = () => {
                     <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-4 rounded-xl bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-md">
                       <AchIcon className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-1 gradient-text">
+                    <div className="text-2xl sm:text-3xl font-bold mb-1 gradient-text font-outfit">
                       {achievement.number}
-                    </h3>
+                    </div>
                     <p className="text-xs sm:text-sm text-muted-foreground font-semibold">{achievement.label}</p>
                   </CardContent>
                 </GlowCard>
@@ -153,7 +153,7 @@ const SkillsAchievements = () => {
 
         {/* Technical Proficiency Categorized */}
         <div className="max-w-5xl mx-auto">
-          <h3 className="text-xl sm:text-2xl font-bold mb-10 text-center">Technical Proficiency</h3>
+          <h2 className="text-xl sm:text-2xl font-bold mb-10 text-center">Technical Proficiency</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {skillCategories.map((category, cIdx) => (
               <GlowCard
@@ -161,10 +161,10 @@ const SkillsAchievements = () => {
                 glowColor={category.glow}
                 className="border border-border/10 bg-card/30 backdrop-blur-xl p-6 rounded-3xl"
               >
-                <h4 className="font-bold text-base sm:text-lg text-foreground mb-6 pb-2 border-b border-border/10 flex items-center gap-2">
+                <h3 className="font-bold text-base sm:text-lg text-foreground mb-6 pb-2 border-b border-border/10 flex items-center gap-2">
                   <Code className="h-4 w-4 text-primary" />
                   {category.title}
-                </h4>
+                </h3>
                 <div className="space-y-6">
                   {category.skills.map((skill, index) => (
                     <div key={skill.name} className="space-y-2">

@@ -34,6 +34,7 @@ const WhatsAppButton = () => {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Contact Umesh on WhatsApp"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           className="relative"
@@ -92,6 +93,7 @@ const WhatsAppButton = () => {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Contact Umesh on WhatsApp"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         className="relative"
