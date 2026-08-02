@@ -492,12 +492,32 @@ const Projects = () => {
     return matchesCategory && matchesSearch;
   });
 
+  const projectsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://umeshdarlami.com.np/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Projects",
+        "item": "https://umeshdarlami.com.np/projects"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen text-foreground">
       <SEO 
         title="Projects Showcase | Umesh Darlami"
         description="Explore a curated list of software engineering and development projects built by Umesh Darlami, including custom AI chatbots, APIs, and web applications."
         keywords="Umesh Darlami projects, portfolio projects, AI chatbots, FastAPI portfolio, React apps"
+        schema={projectsSchema}
       />
       <Navbar />
       <main>

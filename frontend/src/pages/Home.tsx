@@ -853,12 +853,51 @@ const Home = () => {
     };
   }, [showResumeModal]);
 
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Umesh Darlami Magar",
+      "alternateName": "Umesh Darlami",
+      "jobTitle": "Full-Stack Developer & Software Engineer",
+      "url": "https://umeshdarlami.com.np/",
+      "image": "https://umeshdarlami.com.np/profile.jpg",
+      "sameAs": [
+        "https://github.com/UDM11",
+        "https://linkedin.com/in/umesh-darlami"
+      ],
+      "description": "Full-stack developer, software engineer, and BCSIT student based in Kathmandu, Nepal. Specializing in React, FastAPI, and custom AI agent integrations.",
+      "knowsAbout": [
+        "Software Engineering",
+        "Full-stack Web Development",
+        "React",
+        "Python",
+        "FastAPI",
+        "Generative AI",
+        "Artificial Intelligence Chatbots",
+        "Supabase",
+        "PostgreSQL"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kathmandu",
+        "addressCountry": "NP"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Liberty College"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen text-foreground">
       <SEO 
         title="Umesh Darlami - Full-Stack Developer & Software Engineer | BCSIT Student"
         description="Official portfolio of Umesh Darlami, a full-stack developer, software engineer, and BCSIT student in Kathmandu, Nepal. Specializing in React, FastAPI, LLM integrations, and custom AI chatbots."
         keywords="Umesh Darlami, Umesh Darlami Magar, Full-Stack Developer, Software Engineer, Nepal Developer, BCSIT, React Developer, FastAPI, AI Integration, WhatsApp Chatbot Developer, Portfolio"
+        schema={homeSchema}
       />
       <Navbar />
       <main>
