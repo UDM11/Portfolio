@@ -42,3 +42,11 @@ class MessageData(BaseModel):
     email: str
     subject: str
     message: str
+
+class ChatPayload(BaseModel):
+    message: str
+    history: Optional[List[dict]] = []
+
+class GenerateProjectPayload(BaseModel):
+    title: str
+    description: Optional[str] = ""

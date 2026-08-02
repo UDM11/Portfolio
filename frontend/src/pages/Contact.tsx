@@ -15,6 +15,7 @@ import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { GlowCard } from "@/components/ui/GlowCard";
 import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Floating background elements
 const FloatingElements = () => {
@@ -411,7 +412,7 @@ const ContactInfoCard = ({ item, index }: { item: any; index: number }) => {
 };
 
 const Contact = () => {
-  const { data: contactInfo = [] } = useContactInfo();
+  const { data: contactInfo = [], isLoading } = useContactInfo();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 40]);
   const y2 = useTransform(scrollY, [0, 300], [0, -40]);
@@ -425,6 +426,7 @@ const Contact = () => {
       />
       <Navbar />
       <main className="relative pt-24">
+        <Breadcrumbs />
         {/* Floating elements backdrop */}
         <FloatingElements />
 
@@ -510,9 +512,21 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-4">
-                  {contactInfo.map((item, index) => (
-                    <ContactInfoCard key={item.title} item={item} index={index} />
-                  ))}
+                  {isLoading ? (
+                    Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="border border-border bg-card rounded-2xl p-5 flex items-center gap-4 animate-pulse">
+                        <div className="w-12 h-12 rounded-xl bg-muted/40 shrink-0"></div>
+                        <div className="space-y-2 flex-1">
+                          <div className="h-4 w-1/4 bg-muted/40 rounded-md"></div>
+                          <div className="h-4 w-2/3 bg-muted/30 rounded-md"></div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    contactInfo.map((item, index) => (
+                      <ContactInfoCard key={item.title} item={item} index={index} />
+                    ))
+                  )}
                 </div>
 
 

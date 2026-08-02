@@ -6,6 +6,7 @@ interface SEOProps {
   description: string;
   keywords?: string;
   canonicalUrl?: string;
+  schema?: object | object[];
 }
 
 export const SEO = ({
@@ -13,6 +14,7 @@ export const SEO = ({
   description,
   keywords,
   canonicalUrl,
+  schema,
 }: SEOProps) => {
   const location = useLocation();
   const currentUrl = canonicalUrl || `https://umeshdarlami.com.np${location.pathname}`;
@@ -60,7 +62,30 @@ export const SEO = ({
 
     const twitterUrl = document.querySelector('meta[name="twitter:url"]');
     if (twitterUrl) twitterUrl.setAttribute("content", currentUrl);
-  }, [title, description, keywords, currentUrl]);
+
+    // Update/inject JSON-LD Schema
+    let schemaScript = document.getElementById("jsonld-page-schema") as HTMLScriptElement;
+    if (schema) {
+      if (!schemaScript) {
+        schemaScript = document.createElement("script");
+        schemaScript.id = "jsonld-page-schema";
+        schemaScript.type = "application/ld+json";
+        document.head.appendChild(schemaScript);
+      }
+      schemaScript.textContent = JSON.stringify(schema);
+    } else {
+      if (schemaScript) {
+        schemaScript.remove();
+      }
+    }
+
+    return () => {
+      const existingScript = document.getElementById("jsonld-page-schema");
+      if (existingScript) {
+        existingScript.remove();
+      }
+    };
+  }, [title, description, keywords, currentUrl, schema]);
 
   return null;
 };

@@ -13,7 +13,40 @@ import Admin from "./pages/admin/Admin";
 import NotFound from "./pages/NotFound";
 import { AIChatbot } from "@/components/AIChatbot";
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 const queryClient = new QueryClient();
+
+const VersionChecker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const checkVersion = async () => {
+      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        return;
+      }
+      try {
+        const res = await fetch("/version.json", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          const localVersion = localStorage.getItem("app_version");
+          if (localVersion && localVersion !== data.version) {
+            localStorage.setItem("app_version", data.version);
+            window.location.reload();
+          } else if (!localVersion) {
+            localStorage.setItem("app_version", data.version);
+          }
+        }
+      } catch (e) {
+        console.warn("Version check failed:", e);
+      }
+    };
+    checkVersion();
+  }, [location.pathname]);
+
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -21,6 +54,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <VersionChecker />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -29,6 +63,7 @@ const App = () => (
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/:tab" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <AIChatbot />

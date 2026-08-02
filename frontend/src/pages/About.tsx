@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import SEO from "@/components/SEO";
-
-const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.webp";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import profileImg from "@/assets/profile.webp";
 
 // Floating elements component
 const FloatingElements = () => {
@@ -293,7 +293,7 @@ const renderIcon = (item: any) => {
 };
 
 const About = () => {
-  const { data: highlights = [] } = useHighlights();
+  const { data: highlights = [], isLoading } = useHighlights();
   const [activeTab, setActiveTab] = useState<"expertise" | "highlights" | "education">("expertise");
 
   const expertiseItems = [
@@ -336,6 +336,7 @@ const About = () => {
       />
       <Navbar />
       <main className="relative pt-24">
+        <Breadcrumbs />
         {/* Floating Elements Background */}
         <FloatingElements />
 
@@ -514,7 +515,17 @@ const About = () => {
                       transition={{ duration: 0.4 }}
                       className="space-y-4"
                     >
-                      {highlights.length === 0 ? (
+                      {isLoading ? (
+                        Array.from({ length: 3 }).map((_, index) => (
+                          <div key={index} className="border border-border bg-card rounded-2xl p-5 flex gap-4 animate-pulse">
+                            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-muted/40"></div>
+                            <div className="space-y-2 flex-1 pt-1">
+                              <div className="h-5 w-1/3 bg-muted/40 rounded-lg"></div>
+                              <div className="h-3.5 w-5/6 bg-muted/30 rounded-md"></div>
+                            </div>
+                          </div>
+                        ))
+                      ) : highlights.length === 0 ? (
                         <p className="text-muted-foreground text-sm italic">No dynamic highlights found.</p>
                       ) : (
                         highlights.map((item, index) => (

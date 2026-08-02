@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send, Bot, Sparkles, User, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
+import profileImg from "@/assets/profile.webp";
 
 interface Message {
   sender: "user" | "bot";
@@ -25,8 +26,6 @@ export const AIChatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const profileImg = "https://jivvormqzmqjwehkqpne.supabase.co/storage/v1/object/public/project-images/profile.webp";
 
   // Initial welcome message
   useEffect(() => {
@@ -52,8 +51,24 @@ export const AIChatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleSend = (textToSend: string) => {
+  const API_BASE = (import.meta.env.VITE_API_BASE || "http://localhost:5000/api").replace(/\/$/, "");
+
+  const handleSend = async (textToSend: string) => {
     if (!textToSend.trim()) return;
+
+    // Handle email redirect command action
+    if (textToSend === "email_link") {
+      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=darlamiumesh123@gmail.com", "_blank");
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "Opening email client to mail darlamiumesh123@gmail.com. Let me know if you need anything else!",
+          timestamp: new Date()
+        }
+      ]);
+      return;
+    }
 
     // Add user message
     const newMsg: Message = {
@@ -66,104 +81,49 @@ export const AIChatbot = () => {
     setInputText("");
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const response = generateAIResponse(textToSend);
-      setMessages((prev) => [...prev, response]);
+    try {
+      const chatHistory = messages.map((m) => ({
+        role: m.sender === "bot" ? "model" : "user",
+        content: m.text
+      }));
+
+      const res = await fetch(`${API_BASE}/ai/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: textToSend,
+          history: chatHistory
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          { sender: "bot", text: data.response, timestamp: new Date() }
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Sorry, I ran into an error connecting to my AI core. Please try again shortly.",
+            timestamp: new Date()
+          }
+        ]);
+      }
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "Connection failure. Ensure the backend server is running.",
+          timestamp: new Date()
+        }
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 1200);
-  };
-
-  // Conversational response engine matching keywords
-  const generateAIResponse = (input: string): Message => {
-    const text = input.toLowerCase();
-    const timestamp = new Date();
-
-    // 1. Projects
-    if (text.includes("project") || text.includes("work") || text.includes("build") || text.includes("make")) {
-      return {
-        sender: "bot",
-        text: "Umesh has engineered several full-stack and AI applications. Here are some key projects:\n\n• **BCSITHub**: An online learning platform with dynamic resource sharing.\n• **Travel Assistant**: A smart trip planning assistant.\n• **Fast and Furies**: An interactive car showroom catalog.\n\nAll project data is dynamically managed via his custom FastAPI + Supabase backend!",
-        timestamp,
-        actions: [
-          { label: "💬 View Contact", value: "contact" },
-          { label: "⚡ Tech Skills", value: "skills" }
-        ]
-      };
     }
-
-    // 2. Skills
-    if (text.includes("skill") || text.includes("tech") || text.includes("language") || text.includes("code")) {
-      return {
-        sender: "bot",
-        text: "Umesh is a multi-talented Full-Stack Developer with expertise in:\n\n• **Frontend**: React, Next.js, TypeScript, Tailwind CSS, Framer Motion.\n• **Backend**: Python, FastAPI, Node.js, Express, REST APIs.\n• **Databases**: Supabase, PostgreSQL, MongoDB, Vector DBs.\n• **AI Specialization**: LangChain, LLMs integration, WhatsApp API automation, and Custom AI Chatbots.",
-        timestamp,
-        actions: [
-          { label: "📁 View Projects", value: "projects" },
-          { label: "🎓 Experience Details", value: "experience" }
-        ]
-      };
-    }
-
-    // 3. Contact
-    if (text.includes("contact") || text.includes("hire") || text.includes("email") || text.includes("mail") || text.includes("phone") || text.includes("call")) {
-      return {
-        sender: "bot",
-        text: "You can reach out to Umesh directly using these details:\n\n• **Email**: darlamiumesh123@gmail.com\n• **WhatsApp**: +977 9863755744\n• **Location**: Kathmandu, Nepal\n\nFeel free to write to him on the contact section or directly click the green WhatsApp bubble on the bottom right!",
-        timestamp,
-        actions: [
-          { label: "✉️ Send an Email", value: "email_link" },
-          { label: "🎓 Experience", value: "experience" }
-        ]
-      };
-    }
-
-    // 4. Experience / Education
-    if (text.includes("experience") || text.includes("education") || text.includes("study") || text.includes("college") || text.includes("bcsit")) {
-      return {
-        sender: "bot",
-        text: "Here is Umesh's academic and development background:\n\n• **Education**: Currently pursuing BCSIT (Bachelor of Computer Science & Information Technology) at **Liberty College** (Kathmandu, Nepal).\n• **Work**: Freelance Full-Stack Developer & Chatbot Integrator specializing in automated business assistant chatbots and custom API structures.\n\nAll details are stored dynamically in the Supabase database.",
-        timestamp,
-        actions: [
-          { label: "📁 Projects", value: "projects" },
-          { label: "📞 Contact Info", value: "contact" }
-        ]
-      };
-    }
-
-    // 5. Email click fallback
-    if (text === "email_link") {
-      window.open("https://mail.google.com/mail/?view=cm&fs=1&to=darlamiumesh123@gmail.com", "_blank");
-      return {
-        sender: "bot",
-        text: "Opening email client to mail darlamiumesh123@gmail.com. Let me know if you need anything else!",
-        timestamp
-      };
-    }
-
-    // 6. Generic Greeting
-    if (text.includes("hi") || text.includes("hello") || text.includes("hey") || text.includes("namaste")) {
-      return {
-        sender: "bot",
-        text: "Hello! Hope you are doing great. How can I assist you in learning more about Umesh's skills and projects today?",
-        timestamp,
-        actions: [
-          { label: "🚀 Core Projects", value: "projects" },
-          { label: "⚡ Key Tech Skills", value: "skills" }
-        ]
-      };
-    }
-
-    // 7. Fallback Default
-    return {
-      sender: "bot",
-      text: "I want to make sure I answer you accurately! Try asking me about his 'projects', 'tech skills', 'work experience', or 'how to contact him'.",
-      timestamp,
-      actions: [
-        { label: "🚀 Projects List", value: "projects" },
-        { label: "📞 Get Contact Info", value: "contact" }
-      ]
-    };
   };
 
   return (

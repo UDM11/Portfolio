@@ -1,11 +1,12 @@
 import os
 import uuid
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
 from database import supabase
+from utils.security import get_admin_token
 
 router = APIRouter(prefix="/api/upload", tags=["upload"])
 
-@router.post("")
+@router.post("", dependencies=[Depends(get_admin_token)])
 async def upload_image(file: UploadFile = File(...)):
     try:
         file_ext = os.path.splitext(file.filename)[1]

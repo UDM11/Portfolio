@@ -4,18 +4,35 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from config import PORT
-from routers import admin, projects, skills, experience, highlights, contact, messages, upload
+from routers import admin, projects, skills, experience, highlights, contact, messages, upload, ai
 
 app = FastAPI(title="Portfolio Admin API")
 
 # Configure CORS
+origins = [
+    "http://localhost:5173",
+    "http://localhost:8080",
+    "https://umeshdarlami.com.np",
+    "https://www.umeshdarlami.com.np",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict to your frontend domain
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# HTTP Security Headers Middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
 
 # Register Routers
 app.include_router(admin.router)
@@ -26,6 +43,7 @@ app.include_router(highlights.router)
 app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(upload.router)
+app.include_router(ai.router)
 
 class CacheControlledStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope) -> Response:

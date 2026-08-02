@@ -16,6 +16,7 @@ import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import { useToast } from "@/hooks/use-toast";
 import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const categories = ["All", "Web", "App", "UI/UX", "AI"];
 
@@ -413,7 +414,7 @@ const ProjectCard = ({
 };
 
 const Projects = () => {
-  const { data: projects = [] } = useProjects();
+  const { data: projects = [], isLoading } = useProjects();
   const { scrollY } = useScroll();
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
@@ -544,6 +545,7 @@ const Projects = () => {
           </div>
 
           <div className="container mx-auto px-4 z-10 relative">
+            <Breadcrumbs />
             <div className="max-w-3xl mx-auto text-center space-y-6">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -646,48 +648,69 @@ const Projects = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(14,165,233,0.02),transparent_60%)] pointer-events-none" />
           
           <div className="container mx-auto px-4 relative z-10">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory + searchTerm}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
-              >
-                {filteredProjects.map((project, index) => (
-                  <ProjectCard 
-                    key={project.title} 
-                    project={project} 
-                    index={index} 
-                    onShowModal={() => setShowModal(true)} 
-                    onShowCodeModal={() => setShowCodeModal(true)} 
-                    onTechClick={handleTechClick}
-                    onCardClick={() => { setSelectedShowcaseProject(project); setActiveTab("overview"); }} 
-                  />
+            {isLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} className="border border-border bg-card rounded-2xl p-5 space-y-4 animate-pulse">
+                    <div className="-mx-5 -mt-5 aspect-video bg-muted/40 rounded-t-2xl"></div>
+                    <div className="space-y-2.5">
+                      <div className="h-5 w-2/3 bg-muted rounded-lg"></div>
+                      <div className="h-3.5 w-full bg-muted/70 rounded-md"></div>
+                      <div className="h-3.5 w-5/6 bg-muted/70 rounded-md"></div>
+                    </div>
+                    <div className="flex gap-1.5 pt-2">
+                      <div className="h-5 w-12 bg-muted/80 rounded-md"></div>
+                      <div className="h-5 w-16 bg-muted/80 rounded-md"></div>
+                    </div>
+                  </div>
                 ))}
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            ) : (
+              <>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeCategory + searchTerm}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
+                  >
+                    {filteredProjects.map((project, index) => (
+                      <ProjectCard 
+                        key={project.title} 
+                        project={project} 
+                        index={index} 
+                        onShowModal={() => setShowModal(true)} 
+                        onShowCodeModal={() => setShowCodeModal(true)} 
+                        onTechClick={handleTechClick}
+                        onCardClick={() => { setSelectedShowcaseProject(project); setActiveTab("overview"); }} 
+                      />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
 
-            {filteredProjects.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-20 max-w-md mx-auto"
-              >
-                <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-border/10">
-                  <Search className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 tracking-tight">No projects matched</h3>
-                <p className="text-xs text-muted-foreground mb-6">Try refining your typed keyword filters or clearing current categories.</p>
-                <Button 
-                  onClick={() => { setSearchTerm(""); setActiveCategory("All"); }}
-                  size="sm"
-                  className="bg-primary hover:bg-primary/95 shadow"
-                >
-                  Reset All Filters
-                </Button>
-              </motion.div>
+                {filteredProjects.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-20 max-w-md mx-auto"
+                  >
+                    <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-border/10">
+                      <Search className="h-7 w-7 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 tracking-tight">No projects matched</h3>
+                    <p className="text-xs text-muted-foreground mb-6">Try refining your typed keyword filters or clearing current categories.</p>
+                    <Button 
+                      onClick={() => { setSearchTerm(""); setActiveCategory("All"); }}
+                      size="sm"
+                      className="bg-primary hover:bg-primary/95 shadow"
+                    >
+                      Reset All Filters
+                    </Button>
+                  </motion.div>
+                )}
+              </>
             )}
           </div>
         </section>

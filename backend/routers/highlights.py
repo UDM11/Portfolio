@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from database import supabase
 from models import HighlightData
+from utils.security import get_admin_token
 
 router = APIRouter(prefix="/api/highlights", tags=["highlights"])
 
@@ -12,7 +13,7 @@ async def get_highlights():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("")
+@router.post("", dependencies=[Depends(get_admin_token)])
 async def create_highlight(highlight: HighlightData):
     try:
         response = supabase.table("about_highlights").insert(highlight.model_dump()).execute()
@@ -20,7 +21,7 @@ async def create_highlight(highlight: HighlightData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.put("/{highlight_id}")
+@router.put("/{highlight_id}", dependencies=[Depends(get_admin_token)])
 async def update_highlight(highlight_id: str, highlight: HighlightData):
     try:
         response = supabase.table("about_highlights").update(highlight.model_dump()).eq("id", highlight_id).execute()
@@ -30,7 +31,7 @@ async def update_highlight(highlight_id: str, highlight: HighlightData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.delete("/{highlight_id}")
+@router.delete("/{highlight_id}", dependencies=[Depends(get_admin_token)])
 async def delete_highlight(highlight_id: str):
     try:
         response = supabase.table("about_highlights").delete().eq("id", highlight_id).execute()

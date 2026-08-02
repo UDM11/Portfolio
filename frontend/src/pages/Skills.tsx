@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { useSkills } from "@/hooks/usePortfolioData";
 import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   Code2,
   Database,
@@ -381,7 +382,7 @@ const SkillCategoryCard = ({ category, index }: { category: any; index: number }
 };
 
 const Skills = () => {
-  const { data: skillCategories = [] } = useSkills();
+  const { data: skillCategories = [], isLoading } = useSkills();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
@@ -460,6 +461,7 @@ const Skills = () => {
           </div>
 
           <div className="container mx-auto px-4 z-10 relative">
+            <Breadcrumbs />
             <div className="max-w-3xl mx-auto text-center space-y-6">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -545,11 +547,30 @@ const Skills = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {skillCategories.map((category, index) => (
-                <SkillCategoryCard key={category.id || category.category || category.title || index} category={category} index={index} />
-              ))}
-            </div>
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="border border-border bg-card rounded-2xl p-5 space-y-4 animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-muted/40 shrink-0"></div>
+                      <div className="h-5 w-32 bg-muted/40 rounded-lg"></div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      <div className="h-6 w-14 bg-muted/30 rounded-full"></div>
+                      <div className="h-6 w-16 bg-muted/30 rounded-full"></div>
+                      <div className="h-6 w-12 bg-muted/30 rounded-full"></div>
+                      <div className="h-6 w-20 bg-muted/30 rounded-full"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                {skillCategories.map((category, index) => (
+                  <SkillCategoryCard key={category.id || category.category || category.title || index} category={category} index={index} />
+                ))}
+              </div>
+            )}
           </div>
         </motion.section>
 

@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { GlowCard } from "@/components/ui/GlowCard";
 import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Floating background elements
 const FloatingElements = () => {
@@ -271,7 +272,7 @@ const TimelineItem = ({ item, index }: { item: any; index: number }) => {
 };
 
 const Experience = () => {
-  const { data: timeline = [] } = useExperience();
+  const { data: timeline = [], isLoading } = useExperience();
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 40]);
   const y2 = useTransform(scrollY, [0, 300], [0, -40]);
@@ -313,6 +314,7 @@ const Experience = () => {
       />
       <Navbar />
       <main className="relative pt-24">
+        <Breadcrumbs />
         {/* Floating background backdrop */}
         <FloatingElements />
 
@@ -424,20 +426,40 @@ const Experience = () => {
             </div>
 
             <div ref={timelineRef} className="relative max-w-5xl mx-auto px-2">
-              {/* Vertical progress line for large displays */}
-              <div className="absolute left-6 sm:left-8 lg:left-1/2 lg:-translate-x-1/2 top-0 bottom-0 w-[3px] bg-muted rounded-full" />
-              
-              {/* Animated path filling on scroll */}
-              <motion.div
-                style={{ scaleY, transformOrigin: "top" }}
-                className="absolute left-6 sm:left-8 lg:left-1/2 lg:-translate-x-1/2 top-0 bottom-0 w-[3px] bg-gradient-to-b from-primary via-accent to-primary rounded-full shadow-[0_0_12px_rgba(14,165,233,0.3)]"
-              />
+              {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <div key={index} className="border border-border bg-card rounded-2xl p-6 space-y-4 animate-pulse">
+                      <div className="flex items-center justify-between">
+                        <div className="h-5 w-24 bg-muted/40 rounded-full"></div>
+                        <div className="h-4 w-28 bg-muted/30 rounded-md"></div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="h-5 w-3/4 bg-muted/40 rounded-lg"></div>
+                        <div className="h-3.5 w-1/2 bg-muted/30 rounded-md"></div>
+                      </div>
+                      <div className="h-16 bg-muted/20 rounded-xl p-3 border border-border/50"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  {/* Vertical progress line for large displays */}
+                  <div className="absolute left-6 sm:left-8 lg:left-1/2 lg:-translate-x-1/2 top-0 bottom-0 w-[3px] bg-muted rounded-full" />
+                  
+                  {/* Animated path filling on scroll */}
+                  <motion.div
+                    style={{ scaleY, transformOrigin: "top" }}
+                    className="absolute left-6 sm:left-8 lg:left-1/2 lg:-translate-x-1/2 top-0 bottom-0 w-[3px] bg-gradient-to-b from-primary via-accent to-primary rounded-full shadow-[0_0_12px_rgba(14,165,233,0.3)]"
+                  />
 
-              <div className="space-y-4">
-                {filteredTimeline.map((item, index) => (
-                  <TimelineItem key={index} item={item} index={index} />
-                ))}
-              </div>
+                  <div className="space-y-4">
+                    {filteredTimeline.map((item, index) => (
+                      <TimelineItem key={index} item={item} index={index} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </motion.section>

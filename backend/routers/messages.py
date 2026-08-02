@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from database import supabase
 from models import MessageData
+from utils.security import get_admin_token
 
 router = APIRouter(prefix="/api/messages", tags=["messages"])
 
@@ -12,7 +13,7 @@ async def create_message(msg: MessageData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("")
+@router.get("", dependencies=[Depends(get_admin_token)])
 async def get_messages():
     try:
         response = supabase.table("messages").select("*").order("created_at", desc=True).execute()
@@ -20,7 +21,7 @@ async def get_messages():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.delete("/{msg_id}")
+@router.delete("/{msg_id}", dependencies=[Depends(get_admin_token)])
 async def delete_message(msg_id: str):
     try:
         response = supabase.table("messages").delete().eq("id", msg_id).execute()

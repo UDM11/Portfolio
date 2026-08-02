@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from database import supabase
 from models import SkillData
+from utils.security import get_admin_token
 
 router = APIRouter(prefix="/api/skills", tags=["skills"])
 
@@ -12,7 +13,7 @@ async def get_skills():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("")
+@router.post("", dependencies=[Depends(get_admin_token)])
 async def create_skill(skill: SkillData):
     try:
         response = supabase.table("skills").insert(skill.model_dump()).execute()
@@ -20,7 +21,7 @@ async def create_skill(skill: SkillData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.put("/{skill_id}")
+@router.put("/{skill_id}", dependencies=[Depends(get_admin_token)])
 async def update_skill(skill_id: str, skill: SkillData):
     try:
         response = supabase.table("skills").update(skill.model_dump()).eq("id", skill_id).execute()
@@ -30,7 +31,7 @@ async def update_skill(skill_id: str, skill: SkillData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.delete("/{skill_id}")
+@router.delete("/{skill_id}", dependencies=[Depends(get_admin_token)])
 async def delete_skill(skill_id: str):
     try:
         response = supabase.table("skills").delete().eq("id", skill_id).execute()
