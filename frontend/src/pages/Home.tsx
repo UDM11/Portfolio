@@ -865,7 +865,7 @@ const Home = () => {
       "image": "https://umeshdarlami.com.np/profile.jpg",
       "sameAs": [
         "https://github.com/UDM11",
-        "https://linkedin.com/in/umesh-darlami"
+        "https://www.linkedin.com/in/umesh-darlami-magar-a96a37284/"
       ],
       "description": "Full-stack developer, software engineer, and BCSIT student based in Kathmandu, Nepal. Specializing in React, FastAPI, and custom AI agent integrations.",
       "knowsAbout": [
