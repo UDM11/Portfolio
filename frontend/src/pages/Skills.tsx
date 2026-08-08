@@ -408,12 +408,43 @@ const Skills = () => {
     }
   }, []);
 
+  const skillsSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://umeshdarlami.com.np/skills#webpage",
+        "url": "https://umeshdarlami.com.np/skills",
+        "name": "Technical Skills Matrix | Umesh Darlami",
+        "description": "Technical competencies of Umesh Darlami, spanning frontend (React, TS), backend (FastAPI, Node), database management (Supabase, PostgreSQL), and AI integrations."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://umeshdarlami.com.np/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Skills",
+            "item": "https://umeshdarlami.com.np/skills"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen text-foreground">
       <SEO 
         title="Technical Skills Matrix | Umesh Darlami"
         description="Technical competencies of Umesh Darlami, spanning frontend (React, TS), backend (FastAPI, Node), database management (Supabase, PostgreSQL), and AI integrations."
         keywords="Umesh Darlami skills, developer stack, React TypeScript developer, Python developer, database skills"
+        schema={skillsSchema}
       />
       <Navbar />
       <main>

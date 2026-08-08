@@ -305,12 +305,43 @@ const Experience = () => {
     return item.type === filter;
   });
 
+  const experienceSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://umeshdarlami.com.np/experience#webpage",
+        "url": "https://umeshdarlami.com.np/experience",
+        "name": "Work Experience & Education | Umesh Darlami",
+        "description": "Professional software engineering experience and academic history of Umesh Darlami, detailing roles, organizations, and key achievements."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://umeshdarlami.com.np/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Experience",
+            "item": "https://umeshdarlami.com.np/experience"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
       <SEO 
         title="Work Experience & Education | Umesh Darlami"
         description="Professional software engineering experience and academic history of Umesh Darlami, detailing roles, organizations, and key achievements."
         keywords="Umesh Darlami experience, Umesh Darlami resume, career history, developer experience, education timeline"
+        schema={experienceSchema}
       />
       <Navbar />
       <main className="relative pt-24">

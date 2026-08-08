@@ -417,12 +417,54 @@ const Contact = () => {
   const y1 = useTransform(scrollY, [0, 300], [0, 40]);
   const y2 = useTransform(scrollY, [0, 300], [0, -40]);
 
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://umeshdarlami.com.np/contact#webpage",
+        "url": "https://umeshdarlami.com.np/contact",
+        "name": "Contact Umesh Darlami | Freelance & Collaboration",
+        "description": "Get in touch with Umesh Darlami for full-stack development projects, custom AI integrations, freelance work, or general inquiries.",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Umesh Darlami Magar",
+          "email": "mailto:umeshdarlami11@gmail.com",
+          "jobTitle": "Full-Stack Developer",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "freelance inquiry",
+            "email": "umeshdarlami11@gmail.com"
+          }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://umeshdarlami.com.np/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact",
+            "item": "https://umeshdarlami.com.np/contact"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
       <SEO 
         title="Contact Umesh Darlami | Freelance & Collaboration"
         description="Get in touch with Umesh Darlami for full-stack development projects, custom AI integrations, freelance work, or general inquiries."
         keywords="contact Umesh Darlami, hire developer Nepal, freelance software engineer, chatbot consultation"
+        schema={contactSchema}
       />
       <Navbar />
       <main className="relative pt-24">

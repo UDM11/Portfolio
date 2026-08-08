@@ -130,7 +130,7 @@ const Footer = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
+                <img src="/profile.jpg" alt="Logo" className="w-full h-full object-cover" />
               </motion.div>
               <span className="text-lg font-black tracking-wide font-outfit text-white">Umesh Darlami</span>
             </div>

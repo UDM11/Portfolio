@@ -209,7 +209,7 @@ export function Navbar() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
+                  <img src="/profile.jpg" alt="Logo" className="w-full h-full object-cover" />
                 </motion.div>
                 <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block font-outfit tracking-tight">
                   Umesh Darlami
@@ -285,7 +285,7 @@ export function Navbar() {
                 <div className="flex items-center justify-between pb-5 border-b border-border/10 mb-6">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg overflow-hidden bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-                      <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
+                      <img src="/profile.jpg" alt="Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="text-sm font-extrabold gradient-text font-outfit">Umesh Darlami</span>
                   </div>

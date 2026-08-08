@@ -494,19 +494,30 @@ const Projects = () => {
 
   const projectsSchema = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+    "@graph": [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://umeshdarlami.com.np/"
+        "@type": "CollectionPage",
+        "@id": "https://umeshdarlami.com.np/projects#webpage",
+        "url": "https://umeshdarlami.com.np/projects",
+        "name": "Projects Showcase | Umesh Darlami",
+        "description": "Explore a curated list of software engineering and development projects built by Umesh Darlami, including custom AI chatbots, APIs, and web applications."
       },
       {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Projects",
-        "item": "https://umeshdarlami.com.np/projects"
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://umeshdarlami.com.np/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Projects",
+            "item": "https://umeshdarlami.com.np/projects"
+          }
+        ]
       }
     ]
   };

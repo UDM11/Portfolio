@@ -327,12 +327,53 @@ const About = () => {
     }
   ];
 
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": "https://umeshdarlami.com.np/about#webpage",
+        "url": "https://umeshdarlami.com.np/about",
+        "name": "About Umesh Darlami | Full-Stack Developer",
+        "description": "Read about Umesh Darlami's background, education (BCSIT student at Liberty College), key capabilities, and programming philosophy.",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Umesh Darlami Magar",
+          "alternateName": "Umesh Darlami",
+          "jobTitle": "Full-Stack Developer & Software Engineer",
+          "alumniOf": {
+            "@type": "EducationalOrganization",
+            "name": "Liberty College"
+          }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://umeshdarlami.com.np/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About",
+            "item": "https://umeshdarlami.com.np/about"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
       <SEO 
         title="About Umesh Darlami | Full-Stack Developer & Software Engineer"
         description="Read about Umesh Darlami's background, education (BCSIT student at Liberty College), key capabilities, and programming philosophy."
         keywords="About Umesh Darlami, Umesh Darlami education, Liberty College BCSIT, developer background, software engineer Nepal"
+        schema={aboutSchema}
       />
       <Navbar />
       <main className="relative pt-24">
